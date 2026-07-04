@@ -1,0 +1,13 @@
+{
+  "baseline_metrics": {
+    "mse_all": 0.0020612836815416813,
+    "mse_unlabeled_region": 0.0020947677548974752
+  },
+  "pinn_metrics": {
+    "mse_all": 0.001754692872054875,
+    "mse_unlabeled_region": 0.0017819133354350924
+  },
+  "improvement_pct": 14.935040828795595,
+  "n_label": 150,
+  "n_total": 5000
+}

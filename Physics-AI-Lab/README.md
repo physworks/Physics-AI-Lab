@@ -51,8 +51,9 @@ The first hands-on implementation, using TFT drain-current behavior under the Gr
 
 - [x] Formulate GCA governing equations (linear / saturation region)
 - [x] Build synthetic Id-Vg dataset generator (clean + noisy)
-- [ ] PINN implementation (PyTorch)
-- [ ] Data-driven baseline for comparison
+- [x] PINN implementation (PyTorch)
+- [x] Data-driven baseline for comparison — **PINN shows 14.9% lower MSE in the unlabeled data region**
+- [ ] Continuity-correction fix for GCA boundary discontinuity
 - [ ] Result write-up
 
 → [`projects/gca-pinn`](./projects/gca-pinn)
