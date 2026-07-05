@@ -217,8 +217,7 @@ Deploy the Algorithm
 
 PINNs extend the same philosophy by incorporating physical knowledge directly into AI training.
 
-<<<<<<< HEAD
 For this reason, this paper serves as the starting point of my Physics AI learning journey.
-=======
-For this reason, this paper serves as the starting point of my Physics AI learning journey.
->>>>>>> a915ad5947b7bed4569e0552aabe336c1d7dec6e
+
+
+### Paper Link : https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125

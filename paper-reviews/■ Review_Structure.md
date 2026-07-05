@@ -1,10 +1,54 @@
-1. Why I Read This Paper
-2. Problem Statement
-3. Core Idea
-4. Key Equations
-5. Strengths
-6. Limitations
-7. Semiconductor Relevance
-8. My Implementation Plan
-9. Key Takeaways
-10. Personal Notes
+# Paper Name
+
+> author (20xx)
+>
+> Full Name
+>
+> Journal
+
+---
+
+# Why I Read This Paper
+
+---
+
+# Core Idea
+
+---
+
+# Loss Function
+
+## Data Loss
+
+---
+
+## Physics Loss
+
+---
+
+# Why This Is Important
+
+---
+
+# Limitations
+
+---
+
+# Relation to Semiconductor Simulation
+
+---
+
+# My Implementation Plan
+
+## Stage 1
+
+---
+
+# Key Takeaways
+
+---
+
+# Personal Notes
+
+
+### Paper Link : 
