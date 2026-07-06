@@ -57,9 +57,11 @@ def gca_current(Vgs, Vds, params=DEVICE_PARAMS, noise_std=0.0):
     )
 
     # 포화 영역
+    # continuity correction: lambda 보정을 Vds가 아닌 (Vds - Vov)에 적용하여
+    # 경계(Vds = Vov)에서 선형식과 정확히 연속되도록 함 (SPICE Level-1 방식)
     Id[sat_mask] = (
-        0.5 * mu * Cox * (W / L) *
-        Vov[sat_mask] ** 2 * (1 + lam * Vds[sat_mask])
+        mu * Cox * (W / L) *
+        Vov[sat_mask] ** 2 / 2 * (1 + lam * (Vds[sat_mask] - Vov[sat_mask]))
     )
 
     # cutoff: Vov == 0인 지점은 자동으로 Id = 0 처리됨
