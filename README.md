@@ -60,9 +60,10 @@ The first hands-on implementation, using TFT drain-current behavior under the Gr
 
 ### Paper Reviews
 
-- [ ] Physics-informed Neural Networks (PINNs)
+- [x] Physics-informed Neural Networks (PINNs)
 - [ ] Fourier Neural Operator
 - [ ] DeepONet
+- [ ] FlashTP: Fused, Sparsity-Aware Tensor Product for Machine Learning Interatomic Potentials
 
 ### Other Planned Projects
 
