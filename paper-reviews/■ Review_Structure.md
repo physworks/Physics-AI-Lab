@@ -8,47 +8,39 @@
 
 ---
 
-# Why I Read This Paper
+## Why I Read This Paper
 
 ---
 
-# Core Idea
+## Problem
 
 ---
 
-# Loss Function
-
-## Data Loss
+## Key Idea
 
 ---
 
-## Physics Loss
+## Method
 
 ---
 
-# Why This Is Important
+## Equation
 
 ---
 
-# Limitations
+## Advantages
 
 ---
 
-# Relation to Semiconductor Simulation
+## Limitations
 
 ---
 
-# My Implementation Plan
-
-## Stage 1
+## Key Takeaways
 
 ---
 
-# Key Takeaways
-
----
-
-# Personal Notes
+## Personal Notes
 
 
 ### Paper Link : 
