@@ -37,7 +37,9 @@ def gca_current_torch(Vgs, Vds, params):
     sat_mask = 1.0 - linear_mask
 
     Id_linear = mu * Cox * (W / L) * (Vov * Vds - Vds ** 2 / 2)
-    Id_sat = 0.5 * mu * Cox * (W / L) * Vov ** 2 * (1 + lam * Vds)
+    # continuity correction: 경계(Vds=Vov)에서 선형식과 정확히 연속되도록
+    # lambda 보정을 (Vds - Vov)에 적용 (SPICE Level-1 방식)
+    Id_sat = 0.5 * mu * Cox * (W / L) * Vov ** 2 * (1 + lam * (Vds - Vov))
 
     Id = linear_mask * Id_linear + sat_mask * Id_sat
     return Id

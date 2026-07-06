@@ -4,8 +4,8 @@
 - [x] Formulate governing equations
 - [x] Synthetic dataset generation
 - [x] PINN implementation & training
-- [x] Data-driven baseline comparison (PINN: 14.9% lower MSE in unlabeled region)
-- [ ] Continuity-correction fix for GCA boundary discontinuity
+- [x] Data-driven baseline comparison
+- [x] Continuity-correction fix for GCA boundary discontinuity (PINN advantage: 14.9% → 5.2%, a useful finding on when physics constraints matter most)
 
 ## Phase 2 — Extension
 - [ ] Neural Operator (structure generalization)

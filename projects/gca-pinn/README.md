@@ -33,8 +33,10 @@ Id = μ · Cox · (W/L) · [(Vgs − Vth)·Vds − Vds²/2]
 **Saturation region** (Vds ≥ Vgs − Vth):
 
 ```
-Id = 0.5 · μ · Cox · (W/L) · (Vgs − Vth)² · (1 + λ·Vds)
+Id = 0.5 · μ · Cox · (W/L) · (Vgs − Vth)² · [1 + λ·(Vds − (Vgs − Vth))]
 ```
+
+*(Note: the channel-length-modulation term is applied to the excess `Vds − Vov` beyond the saturation point, not to `Vds` directly — see [Discontinuity fix](#discontinuity-fix-in-the-gca-model) below for why.)*
 
 Real TFTs deviate from this ideal model due to subthreshold behavior, mobility degradation, and interface trap effects — which is exactly where a data-informed correction on top of the physical baseline becomes useful, and where this project is headed next (see Roadmap).
 
@@ -52,11 +54,11 @@ Real TFTs deviate from this ideal model due to subthreshold behavior, mobility d
 
 | Model | MSE (all) | MSE (unlabeled region) |
 |---|---|---|
-| Baseline (data-only) | 0.00206 | 0.00209 |
-| PINN (data + physics) | 0.00175 | 0.00178 |
-| **Improvement** | | **14.9%** |
+| Baseline (data-only) | 0.0000889 | 0.0000896 |
+| PINN (data + physics) | 0.0000847 | 0.0000849 |
+| **Improvement** | | **5.2%** |
 
-*(MSE computed in scaled current units; see `src/train.py` for details)*
+*(MSE computed in scaled current units; see `src/train.py` for details. Numbers reflect the corrected, continuous GCA model — see below.)*
 
 ![Loss curves](./assets/loss_curves.png)
 
@@ -64,13 +66,15 @@ Real TFTs deviate from this ideal model due to subthreshold behavior, mobility d
 
 At Vds=5V, the PINN tracks the ground truth more closely than the baseline in the higher-Vgs region, where labeled data is sparser — the physics constraint helps the model generalize where data alone is insufficient.
 
-### Known limitation / discussion point
+### Discontinuity fix in the GCA model
 
-The GCA model itself has a discontinuity at the linear–saturation boundary (Vds = Vgs − Vth), visible as a small spike in the ground truth curve at Vds=15V:
+An earlier version of this model had a discontinuity at the linear–saturation boundary (Vds = Vgs − Vth): the channel-length-modulation term `(1+λVds)` was applied only in the saturation branch, so the two piecewise formulas didn't match exactly at the boundary — the same artifact present in SPICE Level-1 MOSFET models.
+
+**Fix**: apply the modulation term to `(Vds − Vov)` instead of `Vds` directly, so the correction is exactly zero at the boundary and the saturation formula reduces to the linear formula's boundary value automatically (the same approach used in SPICE Level-1). The result is now perfectly continuous:
 
 ![Id-Vg comparison at Vds=15V](./assets/idvg_comparison_vds15.png)
 
-This happens because the channel-length-modulation term `(1+λVds)` is applied only in the saturation branch, so the two piecewise formulas don't match exactly at the boundary — the same artifact present in SPICE Level-1 MOSFET models. Interestingly, the PINN's prediction is smoother through this region than the baseline's, likely because the physics loss is computed densely across the full domain rather than being purely fit to nearby labeled points. A cleaner fix (adding a continuity-correction term to the saturation branch) is left as a next step rather than patched here, since the discontinuity itself is a useful illustration of a real compact-modeling issue.
+**An unexpected result of the fix**: the PINN's improvement over baseline dropped from 14.9% to 5.2% after removing the discontinuity. This makes sense — the physics loss provides the most value where the target function is hardest for a plain data-driven model to fit (like a sharp discontinuity from limited data). Once the ground truth became smooth, the baseline model's inductive bias (smooth MLP) was already a reasonable match for it, narrowing the gap. This is a useful, honest data point: **PINNs help most when the underlying physics is genuinely hard to infer from data alone, not just whenever physics is available.**
 
 ### Status
 
@@ -80,7 +84,7 @@ This happens because the channel-length-modulation term `(1+λVds)` is applied o
 | PINN model implementation (PyTorch) | ✅ Done |
 | Data-driven baseline for comparison | ✅ Done |
 | Result visualization | ✅ Done |
-| Continuity-correction fix for GCA boundary discontinuity | ⬜ Planned |
+| Continuity-correction fix for GCA boundary discontinuity | ✅ Done |
 | Neural Operator extension (structure generalization) | ⬜ Planned |
 
 ---
@@ -105,9 +109,9 @@ Physics-AI-Lab/
 - [x] GCA-based Id-Vg synthetic dataset
 - [x] PINN implementation & validation
 - [x] Data-driven baseline comparison
-- [ ] Continuity-correction fix for GCA boundary discontinuity
+- [x] Continuity-correction fix for GCA boundary discontinuity
 - [ ] Neural Operator extension
-- [ ] TCAD surrogate model experiment (Sentaurus-generated data)
+- [ ] TCAD surrogate model experiment (own FEM-based 1D device simulator, since Sentaurus is not currently accessible)
 
 ---
 

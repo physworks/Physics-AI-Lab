@@ -52,9 +52,9 @@ The first hands-on implementation, using TFT drain-current behavior under the Gr
 - [x] Formulate GCA governing equations (linear / saturation region)
 - [x] Build synthetic Id-Vg dataset generator (clean + noisy)
 - [x] PINN implementation (PyTorch)
-- [x] Data-driven baseline for comparison — **PINN shows 14.9% lower MSE in the unlabeled data region**
-- [ ] Continuity-correction fix for GCA boundary discontinuity
-- [ ] Result write-up
+- [x] Data-driven baseline for comparison
+- [x] Fixed GCA boundary discontinuity (continuity correction) — PINN advantage narrowed from 14.9% to 5.2% once ground truth became smooth, a useful finding on when PINNs help most
+- [ ] Neural Operator extension
 
 → [`projects/gca-pinn`](./projects/gca-pinn)
 
@@ -62,8 +62,8 @@ The first hands-on implementation, using TFT drain-current behavior under the Gr
 
 - [x] Physics-informed Neural Networks (PINNs)
 - [ ] Fourier Neural Operator
-- [ ] DeepONet
-- [ ] FlashTP: Fused, Sparsity-Aware Tensor Product for Machine Learning Interatomic Potentials
+- [x] DeepONet
+- [ ] FlashTP
 
 ### Other Planned Projects
 
