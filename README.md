@@ -60,9 +60,11 @@ The first hands-on implementation, using TFT drain-current behavior under the Gr
 
 ### Paper Reviews
 
+- [x] (SK hynix + NVIDIA) Using AI Physics for Technology Computer-Aided Design Simulations
 - [x] Physics-informed Neural Networks (PINNs)
-- [ ] Fourier Neural Operator
+- [x] Fourier Neural Operator
 - [x] DeepONet
+- [x] Physics-informed AI Accelerated Retention Analysis of Ferroelectric Vertical NAND
 - [ ] FlashTP
 
 ### Other Planned Projects
