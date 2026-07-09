@@ -89,7 +89,7 @@ Sentaurus가 접근 불가능한 상황에서 직접 구현한 1D Poisson-Drift-
 - [x] Physics-informed AI Accelerated Retention Analysis of Ferroelectric Vertical NAND
 - [x] Revolutionizing TCAD Simulations with Universal Device Encoding and Graph Attention Networks
 - [x] Physics-Informed Neural Network for Predicting Out-of-Training-Range TCAD Solution with Minimized Domain Expertise
-- [ ] FlashTP
+- [x] FlashTP
 
 ### Other Planned Projects
 
