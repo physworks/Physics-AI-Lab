@@ -82,11 +82,14 @@ Sentaurus가 접근 불가능한 상황에서 직접 구현한 1D Poisson-Drift-
 
 ### Paper Reviews
 
+- [x] (SK hynix + NVIDIA) Using AI Physics for Technology Computer-Aided Design Simulations
 - [x] Physics-informed Neural Networks (PINNs)
-- [x] [SK hynix TCAD Intelligence — AI Physics for TCAD](./paper-reviews/sk-hynix-tcad-intelligence.md)
-- [x] [PINO for Fe-VNAND Retention Analysis](./paper-reviews/pino-fe-vnand-retention.md)
-- [ ] Fourier Neural Operator (원 논문)
-- [ ] DeepONet
+- [x] DeepONet
+- [x] Fourier Neural Operator
+- [x] Physics-informed AI Accelerated Retention Analysis of Ferroelectric Vertical NAND
+- [x] Revolutionizing TCAD Simulations with Universal Device Encoding and Graph Attention Networks
+- [x] Physics-Informed Neural Network for Predicting Out-of-Training-Range TCAD Solution with Minimized Domain Expertise
+- [ ] FlashTP
 
 ### Other Planned Projects
 
