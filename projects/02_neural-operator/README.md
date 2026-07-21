@@ -2,11 +2,11 @@
 
 [← Back to Physics-AI-Lab](../../README.md)
 
-이 프로젝트는 [`gca-pinn`](../gca-pinn) 프로젝트의 자연스러운 다음 단계입니다. GCA-PINN은 **하나의 고정된 소자**(고정 Vth, mobility 등)에 대해 (Vgs, Vds) → Id를 점 단위로 예측하는 PINN이었습니다. 여기서는 **소자 파라미터(Vth)가 달라져도 재학습 없이 대응하는 Operator**를 NVIDIA PhysicsNeMo의 공식 FNO(Fourier Neural Operator) 구현으로 학습합니다.
+이 프로젝트는 [`gca-pinn`](../01_gca-pinn) 프로젝트의 자연스러운 다음 단계입니다. GCA-PINN은 **하나의 고정된 소자**(고정 Vth, mobility 등)에 대해 (Vgs, Vds) → Id를 점 단위로 예측하는 PINN이었습니다. 여기서는 **소자 파라미터(Vth)가 달라져도 재학습 없이 대응하는 Operator**를 NVIDIA PhysicsNeMo의 공식 FNO(Fourier Neural Operator) 구현으로 학습합니다.
 
 ## 배경 — 왜 Neural Operator인가
 
-[SK하이닉스 TCAD Intelligence 팀의 사례](../../paper-reviews/sk-hynix-tcad-intelligence.md)와 [Fe-VNAND PINO 논문](../../paper-reviews/pino-fe-vnand-retention.md)에서 공통적으로 확인한 점: 실무에서 필요한 건 "소자 하나에 대한 정확한 시뮬레이션"이 아니라, **넓은 파라미터 공간(다양한 소자 설계 후보)을 재학습 없이 빠르게 스캔하는 것**입니다. PINN은 전자를, Neural Operator(FNO, DeepONet 등)는 후자를 겨냥합니다.
+[SK하이닉스 TCAD Intelligence 팀의 사례](../../paper-reviews/00_SK-hynix-NVIDIA-AI-Physics-for-TCAD.md)와 [Fe-VNAND PINO 논문](<../../paper-reviews/04_Physics-informed AI Accelerated Retention Analysis of Ferroelectric Vertical NAND.md>)에서 공통적으로 확인한 점: 실무에서 필요한 건 "소자 하나에 대한 정확한 시뮬레이션"이 아니라, **넓은 파라미터 공간(다양한 소자 설계 후보)을 재학습 없이 빠르게 스캔하는 것**입니다. PINN은 전자를, Neural Operator(FNO, DeepONet 등)는 후자를 겨냥합니다.
 
 ## 실험 설계
 

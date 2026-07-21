@@ -1,6 +1,6 @@
 # Toy MLIP: Neural Network Potential for Lennard-Jones Clusters
 
-Physics-AI-Lab의 네 번째 프로젝트. 지금까지(GCA-PINN, Neural Operator, TCAD Surrogate)는 전부 소자(device) 레벨이었는데, 이번엔 **원자/소재 레벨(Material Simulation)**로 내려가 Machine Learning Interatomic Potential(MLIP)을 직접 구현했습니다. SK하이닉스 TCAD JD의 자격요건 1번(DFT/MD/MC/FEM/FVM)에서 유일하게 비어 있던 "MD" 조각을 채우는 프로젝트입니다.
+Physics-AI-Lab의 네 번째 프로젝트. 지금까지(GCA-PINN, Neural Operator, TCAD Surrogate)는 전부 소자(device) 레벨이었는데, 이번엔 **원자/소재 레벨(Material Simulation)**로 내려가 Machine Learning Interatomic Potential(MLIP)을 직접 구현했습니다. 소자 레벨 시뮬레이션만으로는 다루지 못했던 원자 단위 물성 모델링 역량을 채우는 프로젝트입니다.
 
 ## Motivation
 

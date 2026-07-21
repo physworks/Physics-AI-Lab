@@ -1,6 +1,6 @@
 # NEGF Quantum Transport: 1D Tight-Binding Toy Model
 
-Physics-AI-Lab의 다섯 번째 프로젝트. SK하이닉스 TCAD JD 우대사항에 명시된 **NEGF(Non-Equilibrium Green's Function)**를 1D tight-binding 체인 + 반무한 리드라는 표준 교과서 설정으로 직접 구현했습니다.
+Physics-AI-Lab의 다섯 번째 프로젝트. 나노스케일 소자에서 양자역학적 효과가 지배적인 영역을 다루는 **NEGF(Non-Equilibrium Green's Function)**를 1D tight-binding 체인 + 반무한 리드라는 표준 교과서 설정으로 직접 구현했습니다.
 
 ## 물리적 배경
 
@@ -64,4 +64,4 @@ muL = EF + V/2,  muR = EF - V/2
 - `src/landauer_iv.py` — Milestone 3: Landauer 공식 I-V 계산, 바이어스 램프, NDR 검증
 
 ## 관련 논문 리뷰
-- [Fe-VNAND PINO 논문](../semiconductor-ai-lab/paper-reviews/pino-fe-vnand-retention.md)에서 다룬 Physics-Informed AI 가속 개념을 NEGF에도 적용 가능 — 다음 확장 방향으로 AD-NEGF(arXiv:2202.05098), DeePTB-NEGF 논문 리뷰 예정 (reading list Tier 4)
+- [Fe-VNAND PINO 논문](<../../paper-reviews/04_Physics-informed AI Accelerated Retention Analysis of Ferroelectric Vertical NAND.md>)에서 다룬 Physics-Informed AI 가속 개념을 NEGF에도 적용 가능 — 다음 확장 방향으로 AD-NEGF(arXiv:2202.05098), DeePTB-NEGF 논문 리뷰 예정

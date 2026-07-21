@@ -85,7 +85,7 @@ An earlier version of this model had a discontinuity at the linear–saturation 
 | Data-driven baseline for comparison | ✅ Done |
 | Result visualization | ✅ Done |
 | Continuity-correction fix for GCA boundary discontinuity | ✅ Done |
-| Neural Operator extension (structure generalization) | ⬜ Planned |
+| Neural Operator extension (structure generalization) | ✅ Done → [`02_neural-operator`](../02_neural-operator) |
 
 ---
 
@@ -93,7 +93,7 @@ An earlier version of this model had a discontinuity at the linear–saturation 
 
 ```
 Physics-AI-Lab/
-├── projects/gca-pinn/
+├── projects/01_gca-pinn/
 │   ├── src/            # generate_data.py, physics.py, model.py, train.py, evaluate.py
 │   ├── data/            # Generated dataset & device parameter config
 │   ├── models/          # Saved checkpoints, loss history, results.json
