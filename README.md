@@ -92,7 +92,7 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 - Straggling 비율(ΔRp/Rp≈0.23~0.29), 절대 Rp 스케일 모두 실제 문헌값과 같은 자릿수로 검증
 - 초기 numpy 벡터 구현이 병목이 되어(이온 100개에 3.8초), 순수 파이썬 float 연산으로 재작성해 20배 가속
 
-→ [`projects/06_mc-implant`](./projects/06_mc-implant)
+→ [`projects/06_mc`](./projects/06_mc)
 
 ### 07. MeshGraphNet — Curvature-Driven Front Evolution (Etch Profile Toy Model)
 [SK하이닉스 TCAD Intelligence 팀 블로그](./paper-reviews/00_SK-hynix-NVIDIA-AI-Physics-for-TCAD.md)와 [논문 리뷰 12(MeshGraphNets)](./paper-reviews/12_MeshGraphNets.md)에서 다룬 GNN 기반 mesh 시뮬레이션을, 곡률 흐름으로 매끄러워지는 식각 경계면이라는 단순화된 문제로 직접 구현. Encode-Process-Decode 아키텍처(Pfaff et al., 2020)를 PyTorch로 직접 구현 (DGL 의존성 회피).
@@ -101,6 +101,16 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 - One-step 예측은 거의 완벽(MSE ≈3×10⁻⁸)하지만, 80스텝 자기회귀 rollout에서는 오차가 2233배 누적 — 실제 MeshGraphNet 문헌에 알려진 난제를 직접 재현, SK하이닉스 블로그가 언급한 "매 iteration 재메싱 필요성"과 연결지어 해석
 
 → [`projects/07_meshgraphnet`](./projects/07_meshgraphnet)
+
+### 08. Self-Consistent NEGF-Poisson — Quantum MOS Capacitor (Capstone)
+[프로젝트 03(TCAD Surrogate)](./projects/03_tcad-surrogate)과 [프로젝트 05(NEGF)](./projects/05_negf)를 결합한 capstone. MOS 반전층 전자를 classical Boltzmann 대신 NEGF로 계산해, "quantum confinement로 인한 전하 setback" 재현을 시도. 다른 프로젝트들과 달리 이번엔 **디버깅 여정 자체가 핵심 스토리**.
+
+- 단위 버그(nm→m 변환 누락으로 결합항이 10⁹배 작아짐) 발견 및 수정
+- 격자 스케일 진동을 "버그인지 실제 물리(Friedel 진동 유사 정상파 간섭)인지" 단일 에너지 국소 상태밀도로 직접 진단해 구분
+- 1D 체인의 2D in-plane 상태밀도 누락이라는 근본적 한계를 정직하게 기록 (bulk-anchoring calibration으로 우회, 정량적 한계 명시)
+- Self-consistent damped fixed-point 루프는 안정적으로 수렴 확인
+
+→ [`projects/08_negf-poisson`](./projects/08_negf-poisson)
 
 ---
 
@@ -132,6 +142,10 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 | 19 | AI-Driven Multi-Physics Simulation for Semiconductor Devices |
 | 20 | AI for Electronic Design Automation A Survey |
 | 21 | NVIDIA PhysicsNeMo |
+| 22 | Learning to Simulate Complex Physics with Graph Networks |
+| 23 | A Comprehensive Review of Machine Learning Approaches for Semiconductor Device Modeling and Simulation |
+| 24 | Neural Operators for Electromagnetics |
+| 25 | Scientific Machine Learning for Semiconductor Manufacturing |
 
 ---
 
