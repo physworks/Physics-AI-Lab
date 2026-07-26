@@ -35,7 +35,7 @@ An open research portfolio bridging Physics-based Algorithm Engineering and AI-d
 ```
 docs/            연구 로드맵 및 참고자료
 paper-reviews/   논문 리뷰 (paper-review-template.md는 리뷰 템플릿)
-projects/        구현 프로젝트 (01~07, 번호는 진행 순서)
+projects/        구현 프로젝트 (01~09, 번호는 진행 순서)
 notes/           물리·수치해석 개념 정리
 ```
 
@@ -112,6 +112,15 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 
 → [`projects/08_negf-poisson`](./projects/08_negf-poisson)
 
+### 09. Bayesian Optimization for TCAD Device Design
+[논문 리뷰 10(Ferroelectric Compact Models, active learning으로 TCAD 호출 최소화)](./paper-reviews/10_Automated,%20Physics-Guided%20AI%20Framework%20for%20Asymmetry-Aware%20Ferroelectric%20Compact%20Models.md)에서 다룬 기법을 프로젝트 03 스타일의 MOS 커패시터 시뮬레이터에 직접 적용. "목표 문턱전압을 만족하는 (산화막 두께, 도핑농도)를 최소 시뮬레이션 횟수로 찾기". Gaussian Process 회귀 + Expected Improvement를 scikit-learn 없이 직접 구현.
+
+- Grid resolution 문제(프로젝트 08과 같은 종류)로 Vth 정의를 C-V 최솟값 기준으로 수정
+- 이산 격자값을 그대로 반환해 목표함수가 계단함수가 되는 버그를 포물선 보간으로 해결 — 이후 BO와 Random Search의 성능 차이가 명확하게 드러남
+- 5 seed 평균 비교 결과, **BO가 Random Search 대비 최종 오차 9.4배 낮음**, 편차도 훨씬 작아 일관되게 좋은 해를 찾음
+
+→ [`projects/09_bo_tcad`](./projects/09_bo_tcad)
+
 ---
 
 ## Paper Reviews
@@ -146,6 +155,7 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 | 23 | A Comprehensive Review of Machine Learning Approaches for Semiconductor Device Modeling and Simulation |
 | 24 | Neural Operators for Electromagnetics |
 | 25 | Scientific Machine Learning for Semiconductor Manufacturing |
+| 26 | Physics-Informed Machine Learning for Materials Science |
 
 ---
 
