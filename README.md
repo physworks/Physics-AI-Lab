@@ -121,6 +121,16 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 
 → [`projects/09_bo_tcad`](./projects/09_bo_tcad)
 
+### 10. 1D Kohn-Sham DFT Solver (Soft-Coulomb Potential)
+3D 쿨롱 특이점을 피하는 1D DFT 문헌의 표준 관행(soft-Coulomb 포텐셜)으로 단일 전자 및 2전자 self-consistent Kohn-Sham 계산을 구현.
+
+- Milestone 1(단일 전자 soft-Coulomb): 문헌 벤치마크 기저상태 에너지(-0.6698 Hartree)와 **소수점 4자리까지 정확히 일치**
+- Milestone 2(2전자, Hartree+exchange SCF): 밀도 정규화(∫n=2.0)를 유지하며 안정적으로 수렴, exchange 포함 시 에너지가 낮아지고 밀도가 응집되는 물리적으로 타당한 방향 확인
+- 한계를 정직하게 기록: exchange-correlation은 정확한 1D LDA(QMC 피팅)가 아닌 단순화된 선형 근사로, SCF 방법론과 정성적 경향 검증에 집중하고 정량적 벤치마크 재현은 주장하지 않음
+
+→ [`projects/10_dft`](./projects/10_dft)
+
+
 ---
 
 ## Paper Reviews
