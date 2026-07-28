@@ -170,7 +170,8 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 | 28 | End-to-end Symmetry Preserving Inter-atomic Potential Energy Model for Finite and Extended Systems (DeepPot-SE) |
 | 29 | E(3)-Equivariant Graph Neural Networks for Data-Efficient and Accurate Interatomic Potentials (NequIP) |
 | 30 | Learning Local Equivariant Representations for Large-Scale Atomistic Dynamics (Allegro) |
-| 31 | *MACE: Higher Order Equivariant Message Passing Neural Networks for Fast and Accurate Force Fields |
+| 31 | MACE: Higher Order Equivariant Message Passing Neural Networks for Fast and Accurate Force Fields |
+| 32 | MatterSim: A Deep Learning Atomistic Model Across Elements, Temperatures and Pressures |
 
 ---
 
