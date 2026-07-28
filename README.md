@@ -35,7 +35,7 @@ An open research portfolio bridging Physics-based Algorithm Engineering and AI-d
 ```
 docs/            연구 로드맵 및 참고자료
 paper-reviews/   논문 리뷰 (paper-review-template.md는 리뷰 템플릿)
-projects/        구현 프로젝트 (01~09, 번호는 진행 순서)
+projects/        구현 프로젝트 (01~10, 번호는 진행 순서)
 notes/           물리·수치해석 개념 정리
 ```
 
