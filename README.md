@@ -166,6 +166,11 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 | 24 | Neural Operators for Electromagnetics |
 | 25 | Scientific Machine Learning for Semiconductor Manufacturing |
 | 26 | Physics-Informed Machine Learning for Materials Science |
+| 27 | DeePMD-kit: A Deep Learning Package for Many-Body Potential Energy Representation and Molecular Dynamics |
+| 28 | End-to-end Symmetry Preserving Inter-atomic Potential Energy Model for Finite and Extended Systems (DeepPot-SE) |
+| 29 | E(3)-Equivariant Graph Neural Networks for Data-Efficient and Accurate Interatomic Potentials (NequIP) |
+| 30 | Learning Local Equivariant Representations for Large-Scale Atomistic Dynamics (Allegro) |
+| 31 | *MACE: Higher Order Equivariant Message Passing Neural Networks for Fast and Accurate Force Fields |
 
 ---
 
