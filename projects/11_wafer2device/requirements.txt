@@ -1,0 +1,5 @@
+numpy>=1.24
+PyYAML>=6.0
+matplotlib>=3.7      # figures only (scripts/plot_case.py)
+# optional, only for hypothesis.llm.provider = "openai"
+# openai>=1.0

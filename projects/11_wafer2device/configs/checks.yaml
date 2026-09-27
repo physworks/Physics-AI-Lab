@@ -1,0 +1,48 @@
+# Physics validation criteria.
+#
+# These thresholds are the engineer's judgement, not the model's.  The LLM can
+# propose hypotheses but it can never change what counts as physically valid.
+
+device_spec:
+  vth_nominal: 0.45          # V
+  vth_tolerance: 0.006       # V, +/- around nominal (window narrower
+                             # than the within-wafer Vth spread on purpose)
+  ion_min: 2.6e-4            # A/um
+  ioff_max: 1.0e-9           # A/um
+
+checks:
+  range_sanity:
+    enabled: true
+    # Predicted values must stay inside physically meaningful bounds.
+    vth_min: -0.5
+    vth_max: 1.5
+    ion_min: 1.0e-9
+    ioff_min: 1.0e-16
+
+  monotonicity:
+    enabled: true
+    # Vth must increase monotonically with gate oxide thickness and with
+    # channel doping.  Violation means the model or the hypothesis is wrong.
+    tolerance: 0.02          # allowed fraction of non-monotonic sample pairs
+
+  limit_case:
+    enabled: true
+    # With zero variation the model must reproduce the nominal device.
+    vth_abs_tolerance: 1.0e-3
+
+  pattern_consistency:
+    enabled: true
+    # The spatial signature implied by the hypothesis must resemble the
+    # observed wafer map.  This is what catches a plausible-but-wrong story.
+    min_correlation: 0.35
+
+  model_agreement:
+    enabled: true
+    # Analytic vs surrogate must agree in trend once the surrogate is plugged
+    # in.  Skipped automatically while only one model is available.
+    min_rank_correlation: 0.80
+
+replan:
+  max_rounds: 3
+  min_improvement: 0.10      # stop early if violation score improves < 10%
+  escalate_on_stop: true     # a failed loop is a normal outcome, not a crash
