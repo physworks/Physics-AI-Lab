@@ -1,0 +1,52 @@
+# Allowed vocabulary for S2 hypotheses.
+#
+# Neither the rule engine nor the LLM may propose anything outside this file.
+# Widening the search space is a deliberate engineering decision recorded here,
+# not something a model can do on its own.
+
+parameters:
+  gate_oxide_thickness:
+    unit: fraction
+    min: -0.10
+    max: 0.10
+    description: Fractional deviation of gate dielectric thickness from nominal.
+  channel_doping:
+    unit: fraction
+    min: -0.15
+    max: 0.15
+    description: Fractional deviation of channel doping concentration.
+  gate_length:
+    unit: fraction
+    min: -0.06
+    max: 0.06
+    description: Fractional deviation of effective gate length (litho/etch bias).
+  interface_trap_density:
+    unit: fraction
+    min: -0.20
+    max: 0.40
+    description: Fractional deviation of interface trap density (Dit).
+  series_resistance:
+    unit: fraction
+    min: -0.15
+    max: 0.25
+    description: Fractional deviation of parasitic series resistance.
+
+spatial_forms:
+  uniform:
+    description: Constant offset across the wafer.
+  radial_linear:
+    description: Linear in normalised radius; magnitude reached at the wafer edge.
+  radial_quadratic:
+    description: Quadratic in radius; centre-weighted or edge-weighted bowl.
+  edge_ring:
+    description: Confined to the outer annulus (r > 0.75).
+  center_spot:
+    description: Confined to the inner disc (r < 0.30).
+  angular:
+    description: Cos(theta - theta0) dependence; one-sided asymmetry.
+
+# Hard limits applied to any hypothesis regardless of source.
+limits:
+  max_terms: 3
+  min_confidence: 0.0
+  max_abs_magnitude: 0.40

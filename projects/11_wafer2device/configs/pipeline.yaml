@@ -1,0 +1,50 @@
+data:
+  # "synthetic"  -> generated wafer maps with known ground truth (default)
+  # "wm811k"     -> real WM-811K maps, if the .pkl is provided locally
+  source: synthetic
+  wm811k_path: data/LSWMD.pkl
+  grid: 41                   # wafer map resolution (dies across the diameter)
+  seed: 20260928
+
+device_model:
+  # "analytic" is the reference implementation; "surrogate" is plugged in later
+  # through the same DeviceModel interface without touching the pipeline.
+  primary: analytic
+  secondary: null            # set to "surrogate" to enable the agreement check
+  surrogate_path: artifacts/tcad_surrogate.npz
+
+hypothesis:
+  # rule      -> deterministic rules only (always available, fully reproducible)
+  # llm       -> rules first, LLM adjudicates (agree / refine / dispute)
+  mode: rule
+  llm:
+    provider: cache          # "cache" = replay recorded responses, no network
+    model: gpt-4o-mini
+    cache_path: llm_cache
+    allow_network: false     # explicit opt-in required
+    escalate_only: false     # true = call the LLM only on composite/borderline
+
+optimizer:
+  knobs:                     # design knobs available for compensation
+    gate_length_bias:
+      min: -0.05
+      max: 0.05
+    vt_implant_bias:
+      min: -0.10
+      max: 0.10
+    work_function_bias:
+      min: -0.05
+      max: 0.05
+  n_initial: 24
+  n_iterations: 40
+  seed: 7
+
+approval:
+  # "auto"        -> approve automatically (batch runs, experiments)
+  # "interactive" -> ask the engineer at the physics gate
+  # "strict"      -> auto-approve only when every physics check passed
+  mode: strict
+
+report:
+  output_dir: outputs
+  log_dir: logs/replan
