@@ -25,6 +25,7 @@ An open research portfolio bridging Physics-based Algorithm Engineering and AI-d
 - NEGF / Quantum Transport
 - Monte Carlo Simulation (Ion Implantation)
 - Graph Neural Networks for Mesh-Based Simulation (MeshGraphNet)
+- Compact Device Modeling / Parameter Extraction
 - Scientific Machine Learning
 - Numerical Methods (FEM / FVM)
 
@@ -35,7 +36,7 @@ An open research portfolio bridging Physics-based Algorithm Engineering and AI-d
 ```
 docs/            연구 로드맵 및 참고자료
 paper-reviews/   논문 리뷰 (paper-review-template.md는 리뷰 템플릿)
-projects/        구현 프로젝트 (01~10, 번호는 진행 순서)
+projects/        구현 프로젝트 (01~12, 번호는 진행 순서)
 notes/           물리·수치해석 개념 정리
 ```
 
@@ -129,6 +130,27 @@ TCAD의 Process Simulation 영역 — Boron 이온을 Silicon 타겟에 주입�
 - 한계를 정직하게 기록: exchange-correlation은 정확한 1D LDA(QMC 피팅)가 아닌 단순화된 선형 근사로, SCF 방법론과 정성적 경향 검증에 집중하고 정량적 벤치마크 재현은 주장하지 않음
 
 → [`projects/10_dft`](./projects/10_dft)
+
+### 11. wafer2device — 웨이퍼 패턴에서 소자 특성 보상까지 (물리 검증 게이트)
+웨이퍼 불량 패턴에서 공정 변동 가설을 세우고 소자 특성 보상까지 이어지는 파이프라인. 자율성을 한 곳에만 두고, 나머지는 결정론적으로 고정.
+
+- 단계 순서는 고정 DAG, 물리 검증 실패 시에만 구조화된 피드백으로 가설을 재수립하는 루프(최대 3회)
+- 검증 기준과 허용 파라미터를 설정 파일로 고정해 모델이 바꿀 수 없게 하고, 끝내 통과하지 못하면 사람에게 넘기며 이후 단계를 실행하지 않음
+- 모든 값에 출처 태그(measured/assumed/predicted/optimized)를 붙여 실데이터와 물리 가정을 코드 레벨에서 분리
+- 규칙 기반 기준선의 결함을 두 번 고치자 AI의 이득이 절반으로 줄어든 결과를 그대로 기록. 단순 패턴에서는 이득이 없고 복합 패턴에서만 유효
+
+→ [`projects/11_wafer2device`](./projects/11_wafer2device)
+
+### 12. Compact Model Parameter Extraction — 곡선은 맞는데 파라미터를 믿을 수 있는가
+7-파라미터 Compact Model(EKV 형태 자체 구현, BSIM 계열 아님)을 만들고, 그 파라미터 추출을 자동화한 뒤 **식별성(identifiability)** 을 정량화.
+
+- Subthreshold → DIBL → Linear → Saturation 순으로 단계 추출하고, 각 단계마다 물리 타당성 게이트(열적 하한, 물리 범위, 경계 고착 검출)를 통과해야 다음 단계로 진행
+- Jacobian 기반 공분산 C = σ²(JᵀJ)⁻¹로 파라미터별 1σ와 상관을 계산. **예측한 1σ가 노이즈 실현을 바꿔 반복 추출한 분포와 전 파라미터에서 15% 이내로 일치** — 반복 측정 전에 어떤 파라미터를 신뢰할지 판단 가능
+- 민감도가 파라미터 간 100배 차이남(theta는 vth0의 약 1/100). vth0↔mu0 상관 +0.93은 선형 영역에서 Id ∝ μ(Vgs−Vth)이므로 물리적으로 예측되는 degeneracy
+- 단계별 추출은 15/15 에스컬레이션, 동시 fitting은 0/15. **에스컬레이션한 쪽이 옳음** — 동시 fitting은 5% 노이즈에서 17%, 10%에서 33% 틀린 theta를 똑같이 자신 있게 돌려줌
+- 한계 명시: BSIM/BSIM-CMG 구현이 아니고, 단일 geometry라 theta와 rs의 분리는 원리적으로 불가(여러 채널 길이 필요). 모델 불일치가 없는 합성 데이터
+
+→ [`projects/12_compact-model-extraction`](./projects/12_compact-model-extraction)
 
 
 ---
