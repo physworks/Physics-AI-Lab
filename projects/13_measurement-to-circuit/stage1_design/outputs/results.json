@@ -1,0 +1,735 @@
+{
+  "meta": {
+    "n_points": 12,
+    "max_distinct_vds": 3,
+    "seeds": 25,
+    "llm_used": false
+  },
+  "design_comparison": {
+    "uniform": {
+      "arm": "uniform",
+      "n_points": 12,
+      "predict_rms_log10": 0.010129443072673478,
+      "predict_rms_std": 0.00614555480700765,
+      "free_params": [
+        "vth0",
+        "ss",
+        "mu0",
+        "theta",
+        "rs",
+        "eta",
+        "vsat"
+      ],
+      "param_rel_error": {
+        "vth0": 0.0006482853598316352,
+        "ss": 0.00041290236741819974,
+        "mu0": 0.0031640394983876072,
+        "theta": 0.15781203989919224,
+        "rs": 0.06728056072753551,
+        "eta": 0.006774797050583845,
+        "vsat": 0.01936730570057298
+      },
+      "realised_rel_sigma": {
+        "vth0": 0.0028551359453637248,
+        "ss": 0.0029493370771364285,
+        "mu0": 0.024169944099478445,
+        "theta": 0.7506529113988785,
+        "rs": 0.2372271540293177,
+        "eta": 0.04399137372749886,
+        "vsat": 0.31984770931726536
+      },
+      "predicted_rel_sigma": {
+        "vth0": 0.00313697944390259,
+        "ss": 0.0022741599880633187,
+        "mu0": 0.024735500706795786,
+        "theta": 0.5398128831100537,
+        "rs": 0.20673407524229437,
+        "eta": 0.028415081670936166,
+        "vsat": 0.21684541626773635
+      },
+      "failures": 0,
+      "seeds": 25,
+      "notes": [],
+      "design": {
+        "arm": "uniform",
+        "n_points": 12,
+        "distinct_vds": [
+          0.05,
+          1.2
+        ],
+        "objective": {
+          "include_params": [
+            "vth0",
+            "ss",
+            "mu0",
+            "theta",
+            "rs",
+            "eta",
+            "vsat"
+          ],
+          "criterion": "D",
+          "c_target": null,
+          "fixed_params": {},
+          "source": "config",
+          "rationale": "all parameters, no identifiability screening"
+        },
+        "score": 60.54855269784626,
+        "violations": [],
+        "notes": [
+          "evenly spaced gate bias; no information criterion"
+        ]
+      },
+      "vgs": [
+        0.0,
+        0.25,
+        0.5,
+        0.7,
+        0.95,
+        1.2,
+        0.0,
+        0.15,
+        0.3,
+        0.4,
+        0.55,
+        0.7
+      ],
+      "vds": [
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        1.2,
+        1.2,
+        1.2,
+        1.2,
+        1.2,
+        1.2
+      ]
+    },
+    "heuristic": {
+      "arm": "heuristic",
+      "n_points": 12,
+      "predict_rms_log10": 0.011506672469543028,
+      "predict_rms_std": 0.005768911758166809,
+      "free_params": [
+        "vth0",
+        "ss",
+        "mu0",
+        "theta",
+        "rs",
+        "eta",
+        "vsat"
+      ],
+      "param_rel_error": {
+        "vth0": 0.0001255676308023479,
+        "ss": 0.0003714462938858576,
+        "mu0": 0.00010988930017665859,
+        "theta": 0.21108154607498772,
+        "rs": 0.0993673659085952,
+        "eta": 0.05203850573915589,
+        "vsat": 0.010968691136205598
+      },
+      "realised_rel_sigma": {
+        "vth0": 0.0034209980566437025,
+        "ss": 0.004388242890374588,
+        "mu0": 0.024769829327951028,
+        "theta": 0.6278198615395062,
+        "rs": 0.18967440516330367,
+        "eta": 0.10182968506052678,
+        "vsat": 0.5294180477473999
+      },
+      "predicted_rel_sigma": {
+        "vth0": 0.0027527091412388625,
+        "ss": 0.0032958093753834147,
+        "mu0": 0.020357508023736606,
+        "theta": 0.5697206317454683,
+        "rs": 0.25838968604139867,
+        "eta": 0.12431730644409306,
+        "vsat": 0.7405151138151169
+      },
+      "failures": 0,
+      "seeds": 25,
+      "notes": [],
+      "design": {
+        "arm": "heuristic",
+        "n_points": 12,
+        "distinct_vds": [
+          0.05,
+          0.3,
+          0.6
+        ],
+        "objective": {
+          "include_params": [
+            "vth0",
+            "ss",
+            "mu0",
+            "theta",
+            "rs",
+            "eta",
+            "vsat"
+          ],
+          "criterion": "D",
+          "c_target": null,
+          "fixed_params": {},
+          "source": "config",
+          "rationale": "all parameters, no identifiability screening"
+        },
+        "score": 54.39861219444156,
+        "violations": [],
+        "notes": [
+          "fixed allocation across operating regions"
+        ]
+      },
+      "vgs": [
+        0.0,
+        0.15,
+        0.3,
+        0.35,
+        0.5,
+        0.55,
+        0.65,
+        0.75,
+        0.85,
+        0.9,
+        1.05,
+        1.15
+      ],
+      "vds": [
+        0.05,
+        0.3,
+        0.05,
+        0.05,
+        0.3,
+        0.05,
+        0.05,
+        0.6,
+        0.05,
+        0.05,
+        0.05,
+        0.3
+      ]
+    },
+    "greedy_D": {
+      "arm": "greedy_D",
+      "n_points": 12,
+      "predict_rms_log10": 0.0034862704844037663,
+      "predict_rms_std": 0.0016588822741628807,
+      "free_params": [
+        "vth0",
+        "ss",
+        "mu0",
+        "theta",
+        "rs",
+        "eta",
+        "vsat"
+      ],
+      "param_rel_error": {
+        "vth0": 0.0005131784729742184,
+        "ss": 0.00013745345792015584,
+        "mu0": 0.005378732338674405,
+        "theta": 0.05089470055535442,
+        "rs": 0.00046828748322269576,
+        "eta": 0.0006869641878308617,
+        "vsat": 0.00670540466985658
+      },
+      "realised_rel_sigma": {
+        "vth0": 0.0025537200019542998,
+        "ss": 0.001509500958957208,
+        "mu0": 0.019316208375440472,
+        "theta": 0.23777206236172377,
+        "rs": 0.0753316089571815,
+        "eta": 0.011847624476467868,
+        "vsat": 0.0933773061598402
+      },
+      "predicted_rel_sigma": {
+        "vth0": 0.0024377394832824583,
+        "ss": 0.0017017684964255163,
+        "mu0": 0.018725648849768396,
+        "theta": 0.21588189702879887,
+        "rs": 0.0849256760037954,
+        "eta": 0.014833777716122,
+        "vsat": 0.10378831845565106
+      },
+      "failures": 0,
+      "seeds": 25,
+      "notes": [],
+      "design": {
+        "arm": "greedy_D",
+        "n_points": 12,
+        "distinct_vds": [
+          0.05,
+          0.3,
+          1.2
+        ],
+        "objective": {
+          "include_params": [
+            "vth0",
+            "ss",
+            "mu0",
+            "theta",
+            "rs",
+            "eta",
+            "vsat"
+          ],
+          "criterion": "D",
+          "c_target": null,
+          "fixed_params": {},
+          "source": "config",
+          "rationale": "all parameters, no identifiability screening"
+        },
+        "score": 63.62262885078416,
+        "violations": [],
+        "notes": [
+          "2 point(s) fixed by specification regions"
+        ]
+      },
+      "vgs": [
+        0.05,
+        1.15,
+        0.25,
+        0.1,
+        0.7,
+        0.55,
+        1.2,
+        0.75,
+        0.3,
+        0.55,
+        0.65,
+        0.3
+      ],
+      "vds": [
+        1.2,
+        0.3,
+        1.2,
+        0.05,
+        1.2,
+        0.05,
+        0.05,
+        0.3,
+        0.05,
+        1.2,
+        0.05,
+        1.2
+      ]
+    },
+    "greedy_D_uniform_noise": {
+      "arm": "greedy_D_uniform_noise",
+      "n_points": 12,
+      "predict_rms_log10": 0.004695715670955423,
+      "predict_rms_std": 0.0017232886746027115,
+      "free_params": [
+        "vth0",
+        "ss",
+        "mu0",
+        "theta",
+        "rs",
+        "eta",
+        "vsat"
+      ],
+      "param_rel_error": {
+        "vth0": 0.000915601552923806,
+        "ss": 0.0005706225621909811,
+        "mu0": 0.006723276150112067,
+        "theta": 0.03293615205973472,
+        "rs": 0.013543922731749408,
+        "eta": 0.0004795659743735291,
+        "vsat": 0.018012106480011426
+      },
+      "realised_rel_sigma": {
+        "vth0": 0.0024953603802768897,
+        "ss": 0.003339602202687886,
+        "mu0": 0.019228718287574265,
+        "theta": 0.2617575504586085,
+        "rs": 0.09605360815569873,
+        "eta": 0.026404261188494,
+        "vsat": 0.14026925905419524
+      },
+      "predicted_rel_sigma": {
+        "vth0": 0.002324541957468429,
+        "ss": 0.002299461294253284,
+        "mu0": 0.018606493294917786,
+        "theta": 0.2115919543212039,
+        "rs": 0.08375326562901396,
+        "eta": 0.018698057204245104,
+        "vsat": 0.1122629504379151
+      },
+      "failures": 0,
+      "seeds": 25,
+      "notes": [],
+      "design": {
+        "arm": "greedy_D_uniform_noise",
+        "n_points": 12,
+        "distinct_vds": [
+          0.05,
+          0.3,
+          1.2
+        ],
+        "objective": {
+          "include_params": [
+            "vth0",
+            "ss",
+            "mu0",
+            "theta",
+            "rs",
+            "eta",
+            "vsat"
+          ],
+          "criterion": "D",
+          "c_target": null,
+          "fixed_params": {},
+          "source": "config",
+          "rationale": "all parameters, no identifiability screening"
+        },
+        "score": 64.3174061368151,
+        "violations": [],
+        "notes": [
+          "2 point(s) fixed by specification regions"
+        ]
+      },
+      "vgs": [
+        0.0,
+        1.15,
+        0.2,
+        0.0,
+        0.7,
+        0.55,
+        1.2,
+        0.3,
+        0.75,
+        0.5,
+        0.65,
+        0.35
+      ],
+      "vds": [
+        0.05,
+        0.3,
+        1.2,
+        1.2,
+        1.2,
+        0.05,
+        0.05,
+        0.05,
+        0.3,
+        1.2,
+        0.05,
+        0.05
+      ]
+    }
+  },
+  "breakeven": {
+    "0.02": {
+      "keep": 0.0034862704844037663,
+      "drop": 0.002370894890398378,
+      "ratio": 0.6800662487333815,
+      "drop_is_better": true
+    },
+    "0.05": {
+      "keep": 0.0034677318937553297,
+      "drop": 0.002462002963223665,
+      "ratio": 0.7099750034474189,
+      "drop_is_better": true
+    },
+    "0.1": {
+      "keep": 0.0034677318937553297,
+      "drop": 0.0027025339010721228,
+      "ratio": 0.7793376142887024,
+      "drop_is_better": true
+    },
+    "0.15": {
+      "keep": 0.0034677318937553297,
+      "drop": 0.003024990043160409,
+      "ratio": 0.8723252361602096,
+      "drop_is_better": true
+    },
+    "0.2": {
+      "keep": 0.0034677318937553297,
+      "drop": 0.003402793488814896,
+      "ratio": 0.9812735220224567,
+      "drop_is_better": true
+    },
+    "0.3": {
+      "keep": 0.0034677318937553297,
+      "drop": 0.0042552664647196444,
+      "ratio": 1.2271036501935175,
+      "drop_is_better": false
+    },
+    "0.45": {
+      "keep": 0.0034677318937553297,
+      "drop": 0.005640478929507849,
+      "ratio": 1.6265614246779543,
+      "drop_is_better": false
+    },
+    "0.6": {
+      "keep": 0.0033665625426010006,
+      "drop": 0.0067163833146004145,
+      "ratio": 1.9950270430476982,
+      "drop_is_better": false
+    }
+  },
+  "truth_boundary": {
+    "0.02": true,
+    "0.05": true,
+    "0.1": true,
+    "0.15": true,
+    "0.2": true,
+    "0.3": false,
+    "0.45": false,
+    "0.6": false
+  },
+  "boundaries": {
+    "rule_sensitivity_only": {
+      "name": "rule_sensitivity_only",
+      "decides_drop_up_to": 0.6,
+      "wrong_at": [
+        0.3,
+        0.45,
+        0.6
+      ],
+      "n_wrong": 3,
+      "n_cases": 8
+    },
+    "rule_with_provenance": {
+      "name": "rule_with_provenance",
+      "decides_drop_up_to": 0.05,
+      "wrong_at": [
+        0.1,
+        0.15,
+        0.2
+      ],
+      "n_wrong": 3,
+      "n_cases": 8
+    },
+    "agent": {
+      "name": "agent",
+      "decides_drop_up_to": 0.6,
+      "wrong_at": [
+        0.3,
+        0.45,
+        0.6
+      ],
+      "n_wrong": 3,
+      "n_cases": 8
+    }
+  },
+  "agent_runs": [],
+  "agent_log": [
+    {
+      "trust": 0.02,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.357,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 43x -> criterion A"
+      }
+    },
+    {
+      "trust": 0.05,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.3675,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 43x -> criterion A"
+      }
+    },
+    {
+      "trust": 0.1,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.385,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 44x -> criterion A"
+      }
+    },
+    {
+      "trust": 0.15,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.40249999999999997,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 44x -> criterion A"
+      }
+    },
+    {
+      "trust": 0.2,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.42,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 44x -> criterion A"
+      }
+    },
+    {
+      "trust": 0.3,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.45499999999999996,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 44x -> criterion A"
+      }
+    },
+    {
+      "trust": 0.45,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.5075,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 45x -> criterion A"
+      }
+    },
+    {
+      "trust": 0.6,
+      "source": "rule-fallback",
+      "model": null,
+      "prompt_version": 2,
+      "attempts": 0,
+      "errors": [
+        "OPENAI_API_KEY is not set"
+      ],
+      "objective": {
+        "include_params": [
+          "vth0",
+          "ss",
+          "mu0",
+          "rs",
+          "eta"
+        ],
+        "criterion": "A",
+        "c_target": null,
+        "fixed_params": {
+          "theta": 0.5599999999999999,
+          "vsat": 80000.0
+        },
+        "source": "rule",
+        "rationale": "kept 5 of 7 parameters (dropped ['theta', 'vsat']); sigma spread 45x -> criterion A"
+      }
+    }
+  ]
+}
