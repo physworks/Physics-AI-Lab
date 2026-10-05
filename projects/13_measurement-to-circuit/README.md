@@ -10,7 +10,7 @@ three steps of the same loop.
 | stage | question | state |
 |---|---|---|
 | **1 · design** | Which bias points should be measured so the extracted parameters are worth trusting? | **released** (`stage1_design/`) |
-| **2 · corners** | How does device-to-device spread become a corner and statistical model, and do those corners actually bound circuit behaviour? | planned |
+| **2 · corners** | How does device-to-device spread become a corner and statistical model, and do those corners actually bound circuit behaviour? | **released** (`stage2_corners/`) |
 | **3 · circuit** | Does the model survive a circuit simulator — convergence, continuity, no negative conductance? | planned |
 
 Each stage ships on its own and is tagged. The stages share a device model, so
@@ -46,6 +46,24 @@ Full report: [`stage1_design/outputs/report.md`](stage1_design/outputs/report.md
   the prompt nor supplying the decisive evidence in structured form moved
   that boundary, and the three conditions are statistically
   indistinguishable at the repeat count used.
+
+## Stage 2 — results
+
+Full report: [`stage2_corners/outputs/report.md`](stage2_corners/outputs/report.md).
+
+- **Process correlation and estimation correlation have opposite signs** for
+  `vth0`/`mu0` (−0.33 against +0.90), and 12 of 21 pairs disagree. Stage 1
+  measured the second; a corner model needs the first. The process matrix here
+  is derived from physical causes rather than written down.
+- **Subtracting the extraction noise works only for parameters that were
+  identifiable.** It recovers the true spread within ~10% for five of seven;
+  `theta` and `vsat` — the two stage 1 flagged — come in 9–10× inflated and no
+  linear correction rescues them. An unidentifiable parameter's observed
+  spread is measurement noise, and belongs fixed at nominal rather than given
+  a corner.
+- **2 corners beat 128.** Classic independent box corners cover the population
+  at +50 to +81% wasted margin; targeting the k-sigma ellipsoid for a named
+  metric covers it at about 0% using two simulations.
 
 ## Honest limitations
 
