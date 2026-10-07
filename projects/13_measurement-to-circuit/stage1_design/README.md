@@ -1,195 +1,170 @@
-# Stage 1 — optimal measurement design
+# Stage 1 — 최적 측정 설계
 
-Which bias points should be measured so that the parameters extracted from
-them are worth trusting?
+**추출한 파라미터를 믿을 수 있으려면 어느 Bias 점을 측정해야 하는가.**
 
 ```bash
 pip install -r requirements.txt
-python run_design.py              # writes outputs/
-python -m pytest tests/ -q        # 23 tests
+python run_design.py              # outputs/ 생성
+python -m pytest tests/ -q        # 테스트 41개
 ```
 
-Needs `12_compact-model-extraction` beside this project, or `CMEXT_PATH` set
-to it. The device model and the extractor come from there deliberately — a
-second, subtly different copy would make every comparison meaningless.
+`12_compact-model-extraction`이 옆에 있어야 하며, 없으면 `CMEXT_PATH`로 지정하면
+됩니다. 소자 모델과 추출기를 거기서 가져오는 건 의도적입니다 — 미묘하게 다른
+두 번째 복사본이 생기면 모든 비교가 무의미해집니다.
 
-## The question behind the question
+## 질문 뒤의 질문
 
-Fisher information says how much a measurement tells you about a parameter.
-Maximising it over a set of candidate bias points is a solved problem: the
-log-determinant of a Fisher matrix is submodular, so greedy selection carries
-a (1 − 1/e) guarantee and in practice lands very close to optimal.
+Fisher 정보는 측정이 파라미터에 대해 얼마나 말해주는지를 나타냅니다. 후보 Bias
+점들 위에서 이걸 최대화하는 건 **이미 풀린 문제**입니다. Fisher 행렬의 log
+determinant는 측정 집합에 대해 submodular이므로 greedy 선택이 (1 − 1/e) 보장을
+갖고, 실제로도 최적에 매우 가깝게 나옵니다.
 
-**So "an agent beats greedy at D-optimal design" is not a claim worth making,
-and this project does not make it.** The selector is the same constrained
-greedy in every arm. What differs is the objective it is handed, and the
-objective is a judgement, not a calculation.
+**그래서 "에이전트가 D-optimal 설계에서 greedy를 이긴다"는 주장은 할 만한 것이
+아니고, 이 프로젝트는 그 주장을 하지 않습니다.** 선택기는 모든 arm에서 동일한
+제약 greedy입니다. 다른 건 **어떤 목적함수를 건네받느냐**이고, 목적함수는 계산이
+아니라 판단입니다.
 
-## What was measured
+## 측정한 것
 
-**1 · Choosing points by information is worth about 2.9×** in held-out
-prediction error against an evenly spaced grid, at the same 12 measurements.
-The evaluation metric is deliberately outside every arm's objective: fit at
-the designed points, then predict current on a dense grid no design ever saw.
+**1 · 정보량으로 점을 고르는 것의 가치는 약 2.9배**입니다. 같은 12회 측정에서
+균등 격자 대비 held-out 예측 오차 기준입니다. 평가 지표는 의도적으로 모든 arm의
+목적함수 **바깥**에 둡니다 — 설계된 점에서 피팅한 뒤, 어떤 설계도 본 적 없는 조밀
+격자에서 전류를 예측합니다.
 
-**2 · The textbook design is the wrong one.** D-optimal under a uniform-noise
-assumption puts points in deep subthreshold, where the Jacobian is largest.
-That is also where the current approaches the instrument's noise floor and
-relative precision collapses. Weighting the Fisher matrix by the real,
-current-dependent noise moves the points and improves held-out error further.
+**2 · 교과서 설계가 틀린 설계입니다.** 균일 노이즈 가정 하의 D-optimal은 Jacobian이
+가장 큰 깊은 Subthreshold에 점을 둡니다. 그런데 거기가 전류가 계측기 노이즈
+플로어에 가까워져 **상대 정밀도가 무너지는** 곳입니다. Fisher 행렬을 실제
+전류 의존 노이즈로 가중하면 점이 옮겨가고 held-out 오차가 더 줄어듭니다.
 
-> This also explains an anomaly in project 12. Its `measure()` has a noise
-> floor but its `analyse()` assumes uniform noise, and its predicted 1σ for
-> `ss` was 1.54× optimistic against Monte Carlo. Floor-aware weighting brings
-> that to 1.36×; the rest is genuine nonlinearity. Project 12's report rounded
-> to two decimals, which hid the discrepancy entirely.
+> 이건 프로젝트 12의 이상 현상도 설명합니다. 거기 `measure()`에는 노이즈 플로어가
+> 있는데 `analyse()`는 균일 노이즈를 가정하고, 그 결과 `ss`의 예측 1σ가 Monte
+> Carlo 대비 1.54배 낙관적이었습니다. 플로어를 반영하면 1.36배가 되고, 나머지는
+> 진짜 비선형성입니다. 프로젝트 12의 리포트는 소수점 2자리로 반올림하고 있어서
+> 이 불일치를 완전히 가리고 있었습니다.
 
-**3 · The decision that dominated everything** was not the criterion. `theta`
-has about 1/87 of `vth0`'s sensitivity and no measurement plan recovers it.
-Fixing it removes a nuisance direction and improves every other parameter —
-*if* the value it is fixed at is close enough. Fixed at a stale default it
-injects a bias no plan can undo.
+**3 · 모든 것을 지배한 결정**은 criterion이 아니었습니다. `theta`는 `vth0`의 약
+1/87 민감도를 갖고 어떤 측정 계획으로도 복원되지 않습니다. 고정하면 성가신 방향
+하나가 사라져 나머지 파라미터가 전부 좋아집니다 — *고정하는 값이 충분히 정확하다면*.
+낡은 기본값에 고정하면 어떤 계획으로도 못 지우는 편향이 주입됩니다.
 
-| nominal error on `theta` | better choice |
+| `theta` 공칭값 오차 | 더 나은 선택 |
 |---|---|
-| ≤ 20% | fix it (up to 32% better) |
-| ≥ 30% | estimate it (up to 2.0× worse if fixed) |
+| ≤ 20% | 고정 (최대 32% 이득) |
+| ≥ 30% | 추정 (고정하면 최대 2.0배 손해) |
 
-The break-even falls **between 20% and 30%**. The sensitivity-only rule never
-looks at trust and is wrong above it; the provenance-aware rule guesses a 5%
-threshold and is wrong between 10% and 20%. Each is wrong on 3 of 8 cases, in
-opposite directions, and neither author knew where the boundary was.
+손익분기는 **20~30% 사이**입니다. 민감도만 보는 규칙은 신뢰도를 아예 안 보므로
+그 위에서 틀리고, 출처를 보는 규칙은 임계값을 5%로 찍어서 10~20% 구간에서
+틀립니다. 각각 8건 중 3건을 **서로 반대 방향으로** 틀렸고, **두 규칙의 작성자
+모두 경계가 어디인지 몰랐습니다.**
 
-## What the agent is allowed to do
+## 에이전트에게 허용된 것
 
-It chooses **which parameters the design should determine** and **which
-criterion scores them**. That is all.
+**어느 파라미터를 설계가 결정해야 하는지**와 **어느 criterion으로 점수를 매길지**,
+그 둘뿐입니다.
 
-It does not compute anything — every Fisher matrix, score and extraction runs
-in this package without an API key. It does not select bias points; the same
-selector serves every arm, so a win is attributable to the objective and not
-to a better search. It cannot touch the stress limits, the settling limit or
-the specification points, and anything outside the schema in
-`objective.validate` is refused rather than repaired, falling back to the
-rule.
+계산은 하지 않습니다 — 모든 Fisher 행렬, 점수, 추출은 API 키 없이 이 패키지
+안에서 돕니다. Bias 점을 고르지도 않습니다. 같은 선택기가 모든 arm을 서비스하므로
+승부는 **목적함수에 귀속되지 탐색 성능에 귀속되지 않습니다.** 스트레스 한계,
+정정 시간 한계, 규격 필수 점은 건드릴 수 없고, `objective.validate`의 스키마를
+벗어난 것은 고쳐지는 게 아니라 **거부되고 규칙으로 되돌아갑니다.**
 
-If no key is present the arm runs the rule and labels itself a fallback.
-`run_design.py --require-llm` exits 3 when the agent arm was asked for and
-never reached a model, because a run where every call fell back is not
-evidence about an agent.
+키가 없으면 규칙을 돌리고 스스로를 fallback이라고 표시합니다.
+`run_design.py --require-llm`은 에이전트 arm을 요청했는데 모델에 한 번도 닿지
+못했으면 **exit 3**으로 끝납니다. 전부 fallback으로 돌아간 실행은 에이전트에
+대한 증거가 아니기 때문입니다.
 
-Any of three providers works — the arm needs a model that returns JSON and
-nothing else. The provider is inferred from the model name, overridable with
-`--provider`:
+세 provider 모두 사용 가능하며, provider는 모델 이름에서 추론되고 `--provider`로
+덮어쓸 수 있습니다.
 
-| provider | env var | example model |
+| provider | 환경변수 | 예시 모델 |
 |---|---|---|
 | OpenAI | `OPENAI_API_KEY` | `gpt-4o-mini` |
 | Anthropic | `ANTHROPIC_API_KEY` | `claude-sonnet-4-5` |
-| Google | `GEMINI_API_KEY` or `GOOGLE_API_KEY` | `gemini-3.5-flash-lite` |
+| Google | `GEMINI_API_KEY` 또는 `GOOGLE_API_KEY` | `gemini-3.5-flash-lite` |
 
 ```bash
-export GEMINI_API_KEY=...                       # or put it in .env
-python scripts/run_llm_arm.py --model gemini-3.5-flash-lite --repeats 3
+export GEMINI_API_KEY=...                       # 또는 .env 파일에
+python scripts/run_llm_arm.py --model gemini-3.5-flash-lite --repeats 15
 ```
 
-24 calls per run of three repeats. The key may instead live in a `.env` file
-beside the project — gitignored, because this repository is public — and a
-real environment variable always wins over it. The key is sent as a header on
-every provider, never as a URL query parameter, so it does not reach logs or
-shell history.
+3회 반복 기준 24콜입니다. 키는 프로젝트 루트의 `.env`에 둘 수도 있으며 — 공개
+저장소이므로 gitignore 되어 있습니다 — 실제 환경변수가 항상 우선합니다. 키는 모든
+provider에서 **헤더로** 전송되고 URL 쿼리 파라미터로는 절대 가지 않으므로 로그나
+셸 히스토리에 남지 않습니다.
 
-Model names age faster than this code. If a run fails with a 404, ask the
-provider what the key can actually reach:
+모델 이름은 이 코드보다 빨리 낡습니다. 404가 나면 provider에게 직접 물어보세요:
 
 ```bash
 python scripts/run_llm_arm.py --provider gemini --list-models
 ```
 
-### The agent arm, measured six times across three conditions
+### 에이전트 arm은 세 조건에서 여섯 번 측정했습니다
 
-The first run got 3 of 8 wrong, fixing `theta` at every trust level -- the
-same decisions as the rule that never looks at provenance. Inspecting the
-request found two defects on *this* side of the experiment: the structured
-`nominal_provenance` was assembled as evidence but never put in the payload,
-and the system prompt described the cost of *keeping* an insensitive
-parameter while never mentioning the bias that *fixing* one locks in. It
-argued one side of a two-sided trade.
+첫 실행은 8건 중 3건을 틀렸고, 모든 신뢰도 구간에서 `theta`를 고정했습니다 —
+출처를 아예 안 보는 규칙과 동일한 결정입니다. 요청을 뜯어보니 **이쪽**에 결함이
+둘 있었습니다. 구조화된 `nominal_provenance`를 증거로 만들어놓고 payload에 넣지
+않았고, 시스템 프롬프트는 식별 불가 파라미터를 *남기는* 비용만 설명하고 *고정*할
+때 주입되는 편향은 한 글자도 언급하지 않았습니다. **양자택일 문제에서 한쪽 근거만
+준 것입니다.**
 
-Both were fixed (v2), and all three conditions were then measured:
+둘 다 고친 뒤(v2) 세 조건을 전부 측정했습니다.
 
-| | prompt | provenance in payload | wrong (15 repeats) |
+| | 프롬프트 | payload에 provenance | 오답 (15회 반복) |
 |---|---|---|---|
-| A | v1 | no | 3 / 8 |
-| B | v1 | yes | 3 / 8 |
-| C | v2 | yes | 3 / 8 |
+| A | v1 | 없음 | 3 / 8 |
+| B | v1 | 있음 | 3 / 8 |
+| C | v2 | 있음 | 3 / 8 |
 
-Per-run self-agreement and the levels that split are in
-`outputs/report.md` and in each `outputs/llm_arm_*.json`.
+반복별 self-agreement와 갈린 구간은 `outputs/report.md`와 각
+`outputs/llm_arm_*.json`에 있습니다.
 
-**The conditions are indistinguishable**, and the reading that got there was
-itself a lesson. An early three-repeat sweep of condition B returned 5 of 8
-and was briefly written up as evidence that unexplained evidence *hurts*. It
-did not reproduce. With three repeats and a majority vote, a level where the
-model sits near 50/50 resolves correctly only half the time, so 3-of-8 and
-5-of-8 are equally likely outcomes of one unchanged process (p = 0.22 each) —
-the claim was reading sampling noise as an effect. Re-run at 15 repeats, all
-three conditions return 3 of 8. The runner now flags non-unanimous levels and
-refuses to let an underpowered run be compared across conditions.
+**세 조건은 구별할 수 없고**, 거기까지 간 과정 자체가 교훈이었습니다. 조건 B의
+초기 3회 sweep이 5/8을 내놓았고 "설명 없는 증거는 오히려 해롭다"는 발견으로
+잠깐 적혔습니다. **재현되지 않았습니다.** 3회 반복 다수결에서는 모델이 50/50에
+가까운 구간이 절반만 맞게 결정되므로, 변하지 않은 동일 프로세스에서 3/8과 5/8이
+**같은 확률(각 0.22)로** 나옵니다 — 표본 노이즈를 효과로 읽은 것이었습니다.
+15회로 다시 돌리니 세 조건 모두 3/8입니다. 이제 실행기가 만장일치가 아닌 구간을
+표시하고, 검정력이 부족한 실행으로 조건을 비교하는 것을 거부합니다.
 
-What *is* stable across every condition and every sweep:
+모든 조건, 모든 sweep에서 안정적으로 관찰된 것:
 
-- **The agent never beats a rule.** Its best ties `rule_with_provenance` at
-  3 of 8.
-- **It fails in the same place, in the same direction, every time**: at 30%
-  nominal error and above it keeps choosing to fix `theta` when the measured
-  answer is to estimate it. Neither a better prompt nor the decisive evidence
-  in structured form moved that boundary.
-- High self-agreement belongs to conditions that are systematically wrong.
-  Consistency here measures repeatability, not correctness.
+- **에이전트는 규칙을 한 번도 이기지 못합니다.** 최고가
+  `rule_with_provenance`와 3/8 동점입니다.
+- **매번 같은 자리에서, 같은 방향으로 실패합니다** — 공칭값 오차 30% 이상에서
+  측정된 정답이 "추정"인데 계속 `theta`를 고정합니다. 더 나은 프롬프트도,
+  구조화된 결정적 증거도 그 경계를 움직이지 못했습니다.
+- 가장 높은 self-agreement가 체계적으로 틀린 조건에 붙어 있습니다. **여기서
+  일관성은 재현성을 재는 것이지 정확성을 재는 것이 아닙니다.**
 
-To claim a prompt effect at all, run each condition with many more repeats:
+프로젝트 11에서 규칙 기준선에 두 번 적용했던 원칙이 여기에도 적용되었고, 두 번 다
+에이전트에게 불리하게 작용했습니다 — 한 번은 프롬프트가 문제였다는 걸 드러내서,
+한 번은 재현되지 않은 발견을 철회하면서.
 
-```bash
-python scripts/run_llm_arm.py --prompt-version 1                 --repeats 15
-python scripts/run_llm_arm.py --prompt-version 1 --provenance on --repeats 15
-python scripts/run_llm_arm.py --prompt-version 2                 --repeats 15
-```
+## 보여주지 않는 것
 
-The same discipline applied twice to the rule baselines in project 11 applies
-here, and it cut against the agent both times: once by exposing that the
-prompt was the problem, and once by withdrawing a finding that did not
-replicate.
+- A c-optimal 설계가 `vth0`의 불확실도에서 D-optimal을 60회 노이즈 실현 기준
+  4.7% 앞섰습니다. 60 표본에서 추정한 표준편차의 표본 오차가 약 9%이므로
+  **입증되지 않음**으로 보고합니다. (모든 7개 파라미터를 자유롭게 둔 c-optimal은
+  D보다 **훨씬** 나쁩니다 — 0.94로 상관된 파트너가 떠다니는 동안 한 파라미터의
+  정밀도만 살 수는 없습니다.)
+- 엔지니어 휴리스틱이 균등 격자보다 나빴습니다. 하나의 합성 소자에 대한 하나의
+  손으로 쓴 배분이지, 엔지니어가 점을 고르는 방식에 대한 결론이 아닙니다.
+- 설계는 참값이 아니라 믿고 있는 값에서 만들어집니다. 순차 재설계가 그 간극을
+  메우지만 구현하지 않았습니다.
+- 전부 합성이고 정답을 알고 있습니다. 실측 실리콘은 없습니다.
 
-## What this does not show
-
-- **The agent arm in the committed results is a rule fallback.** The sandbox
-  this was built in cannot reach `api.openai.com`. Run
-  `scripts/run_llm_arm.py` to fill it in; it scores the model against the
-  measured boundary and repeats the sweep to check the answer is stable.
-- A c-optimal design on `vth0` beat D-optimal on `vth0`'s uncertainty by 4.7%
-  over 60 noise realisations. The sampling error of a standard deviation from
-  60 samples is about 9%, so this is **not established** and is reported that
-  way. (c-optimal with all seven parameters free is much *worse* than D —
-  precision cannot be bought on one parameter while its 0.94-correlated
-  partner floats.)
-- The engineer heuristic came out worse than the uniform grid here. That is
-  one hand-written allocation on one synthetic device, not a finding about
-  how engineers choose points.
-- Everything is synthetic, with known ground truth. No measured silicon.
-
-## Layout
+## 구조
 
 ```
 oed/
-  device.py       bridge to project 12's model and extractor
-  noise.py        current-dependent instrument noise
-  fisher.py       weighted Fisher information, D/A/E/c criteria, row cache
-  constraints.py  candidate pool, stress and settling limits, spec points
-  select.py       constrained greedy, and the uniform / heuristic baselines
-  objective.py    the decision under study, and the two rule baselines
-  agent.py        the LLM arm, its schema, and its fallback
-  pipeline.py     fixed stage order with one bounded replan
-  evaluate.py     held-out prediction error and Monte Carlo verification
-  scenarios.py    the break-even sweep that defines the right answer
+  device.py       프로젝트 12의 모델과 추출기로의 다리
+  noise.py        전류 의존 계측 노이즈
+  fisher.py       가중 Fisher 정보, D/A/E/c criterion, 행 캐시
+  constraints.py  후보 집합, 스트레스·정정 시간 한계, 규격 점
+  select.py       제약 greedy, 그리고 균등 / 휴리스틱 기준선
+  objective.py    연구 대상인 그 결정, 그리고 두 규칙 기준선
+  agent.py        LLM arm, 스키마, fallback
+  pipeline.py     고정 단계 순서와 한 번의 제한된 재계획
+  evaluate.py     held-out 예측 오차와 Monte Carlo 검증
+  scenarios.py    정답을 정의하는 손익분기 sweep
 ```

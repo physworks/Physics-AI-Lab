@@ -1,0 +1,884 @@
+{
+  "n_cases": 24,
+  "classes": [
+    "none",
+    "c1_kink",
+    "negative_gds",
+    "truncated_inner_loop",
+    "bad_initial_guess",
+    "singular_operating_point"
+  ],
+  "undecidable_from_trace": [
+    "kink_1",
+    "kink_2",
+    "kink_3"
+  ],
+  "llm_reached_model": true,
+  "model": "gemini-3.5-flash-lite",
+  "stability": {
+    "repeats": 9,
+    "cases_with_split_votes": 6,
+    "split_cases": [
+      "trunc_1",
+      "trunc_2",
+      "singular_0",
+      "singular_1",
+      "singular_2",
+      "singular_3"
+    ],
+    "split_on_undecidable": [],
+    "votes": {
+      "none_0": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "none_1": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "none_2": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "none_3": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "kink_0": [
+        "c1_kink",
+        "c1_kink",
+        "c1_kink",
+        "c1_kink",
+        "c1_kink",
+        "c1_kink",
+        "c1_kink",
+        "c1_kink",
+        "c1_kink"
+      ],
+      "kink_1": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "kink_2": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "kink_3": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "neggds_0": [
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds"
+      ],
+      "neggds_1": [
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds"
+      ],
+      "neggds_2": [
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds"
+      ],
+      "neggds_3": [
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds",
+        "negative_gds"
+      ],
+      "trunc_0": [
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop"
+      ],
+      "trunc_1": [
+        "none",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop"
+      ],
+      "trunc_2": [
+        "none",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop"
+      ],
+      "trunc_3": [
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop",
+        "truncated_inner_loop"
+      ],
+      "badstart_0": [
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess"
+      ],
+      "badstart_1": [
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess"
+      ],
+      "badstart_2": [
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess"
+      ],
+      "badstart_3": [
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess",
+        "bad_initial_guess"
+      ],
+      "singular_0": [
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "bad_initial_guess",
+        "singular_operating_point"
+      ],
+      "singular_1": [
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "bad_initial_guess",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point"
+      ],
+      "singular_2": [
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "bad_initial_guess",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point"
+      ],
+      "singular_3": [
+        "singular_operating_point",
+        "bad_initial_guess",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point",
+        "bad_initial_guess",
+        "singular_operating_point",
+        "singular_operating_point",
+        "singular_operating_point"
+      ]
+    },
+    "abstentions_used": 0
+  },
+  "fragility": {
+    "classes": [
+      {
+        "class": "negative_gds",
+        "n": 4,
+        "n_split": 0,
+        "split_rate": 0.0,
+        "mean_flip_fields": 1.0,
+        "mean_evidence_chars": 861.75,
+        "mean_history_length": 25.0
+      },
+      {
+        "class": "truncated_inner_loop",
+        "n": 4,
+        "n_split": 2,
+        "split_rate": 0.5,
+        "mean_flip_fields": 3.0,
+        "mean_evidence_chars": 568.0,
+        "mean_history_length": 7.75
+      },
+      {
+        "class": "bad_initial_guess",
+        "n": 4,
+        "n_split": 0,
+        "split_rate": 0.0,
+        "mean_flip_fields": 3.0,
+        "mean_evidence_chars": 903.75,
+        "mean_history_length": 25.0
+      },
+      {
+        "class": "none",
+        "n": 4,
+        "n_split": 0,
+        "split_rate": 0.0,
+        "mean_flip_fields": 4.0,
+        "mean_evidence_chars": 558.5,
+        "mean_history_length": 7.25
+      },
+      {
+        "class": "c1_kink",
+        "n": 4,
+        "n_split": 0,
+        "split_rate": 0.0,
+        "mean_flip_fields": 4.0,
+        "mean_evidence_chars": 637.25,
+        "mean_history_length": 12.25
+      },
+      {
+        "class": "singular_operating_point",
+        "n": 4,
+        "n_split": 4,
+        "split_rate": 1.0,
+        "mean_flip_fields": 5.0,
+        "mean_evidence_chars": 907.0,
+        "mean_history_length": 25.0
+      }
+    ],
+    "predictors": {
+      "flip_count": 0.6571428571428573,
+      "history_length": 0.08571428571428573,
+      "evidence_chars": 0.08571428571428573
+    },
+    "concentration": {
+      "split_cases": [
+        "trunc_1",
+        "trunc_2",
+        "singular_0",
+        "singular_1",
+        "singular_2",
+        "singular_3"
+      ],
+      "classes_hit": [
+        "singular_operating_point",
+        "truncated_inner_loop"
+      ],
+      "cases_in_those_classes": 8,
+      "p_exact": 0.00020802995631370917,
+      "p_corrected": 0.0031204493447056377,
+      "n_class_groups": 15,
+      "undecidable_overlap": [],
+      "p_miss_undecidable": 0.4031620553359684
+    },
+    "flip_fields": {
+      "none_0": [
+        "converged",
+        "gds",
+        "gm",
+        "inner_converged"
+      ],
+      "none_1": [
+        "converged",
+        "gds",
+        "gm",
+        "inner_converged"
+      ],
+      "none_2": [
+        "converged",
+        "gds",
+        "gm",
+        "inner_converged"
+      ],
+      "none_3": [
+        "converged",
+        "gds",
+        "gm",
+        "inner_converged"
+      ],
+      "kink_0": [
+        "converged",
+        "retry_from_default_converged",
+        "oscillating",
+        "gds"
+      ],
+      "kink_1": [
+        "converged",
+        "gds",
+        "gm",
+        "inner_converged"
+      ],
+      "kink_2": [
+        "converged",
+        "gds",
+        "gm",
+        "inner_converged"
+      ],
+      "kink_3": [
+        "converged",
+        "gds",
+        "gm",
+        "inner_converged"
+      ],
+      "neggds_0": [
+        "gds"
+      ],
+      "neggds_1": [
+        "gds"
+      ],
+      "neggds_2": [
+        "gds"
+      ],
+      "neggds_3": [
+        "gds"
+      ],
+      "trunc_0": [
+        "converged",
+        "gds",
+        "inner_converged"
+      ],
+      "trunc_1": [
+        "converged",
+        "gds",
+        "inner_converged"
+      ],
+      "trunc_2": [
+        "converged",
+        "gds",
+        "inner_converged"
+      ],
+      "trunc_3": [
+        "converged",
+        "gds",
+        "inner_converged"
+      ],
+      "badstart_0": [
+        "converged",
+        "retry_from_default_converged",
+        "gds"
+      ],
+      "badstart_1": [
+        "converged",
+        "retry_from_default_converged",
+        "gds"
+      ],
+      "badstart_2": [
+        "converged",
+        "retry_from_default_converged",
+        "gds"
+      ],
+      "badstart_3": [
+        "converged",
+        "retry_from_default_converged",
+        "gds"
+      ],
+      "singular_0": [
+        "converged",
+        "retry_from_default_converged",
+        "oscillating",
+        "gds",
+        "inner_converged"
+      ],
+      "singular_1": [
+        "converged",
+        "retry_from_default_converged",
+        "oscillating",
+        "gds",
+        "inner_converged"
+      ],
+      "singular_2": [
+        "converged",
+        "retry_from_default_converged",
+        "oscillating",
+        "gds",
+        "inner_converged"
+      ],
+      "singular_3": [
+        "converged",
+        "retry_from_default_converged",
+        "oscillating",
+        "gds",
+        "inner_converged"
+      ]
+    }
+  },
+  "arms": {
+    "rule": {
+      "arm": "rule",
+      "n": 24,
+      "accuracy_all": 0.875,
+      "n_answered": 24,
+      "accuracy_when_answered": 0.875,
+      "abstention_rate": 0.0,
+      "accuracy_on_decidable": 1.0,
+      "abstained_on_undecidable": 0,
+      "n_undecidable": 3,
+      "confusion": {
+        "none": {
+          "none": 4,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "c1_kink": {
+          "none": 3,
+          "c1_kink": 1,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "negative_gds": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 4,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "truncated_inner_loop": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 4,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "bad_initial_guess": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 4,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "singular_operating_point": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 4,
+          "abstain": 0
+        }
+      }
+    },
+    "rule_with_abstain": {
+      "arm": "rule_with_abstain",
+      "n": 24,
+      "accuracy_all": 0.7083333333333334,
+      "n_answered": 17,
+      "accuracy_when_answered": 1.0,
+      "abstention_rate": 0.29166666666666663,
+      "accuracy_on_decidable": 0.8095238095238095,
+      "abstained_on_undecidable": 3,
+      "n_undecidable": 3,
+      "confusion": {
+        "none": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 4
+        },
+        "c1_kink": {
+          "none": 0,
+          "c1_kink": 1,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 3
+        },
+        "negative_gds": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 4,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "truncated_inner_loop": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 4,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "bad_initial_guess": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 4,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "singular_operating_point": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 4,
+          "abstain": 0
+        }
+      }
+    },
+    "llm:gemini-3.5-flash-lite": {
+      "arm": "llm:gemini-3.5-flash-lite",
+      "n": 24,
+      "accuracy_all": 0.875,
+      "n_answered": 24,
+      "accuracy_when_answered": 0.875,
+      "abstention_rate": 0.0,
+      "accuracy_on_decidable": 1.0,
+      "abstained_on_undecidable": 0,
+      "n_undecidable": 3,
+      "confusion": {
+        "none": {
+          "none": 4,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "c1_kink": {
+          "none": 3,
+          "c1_kink": 1,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "negative_gds": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 4,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "truncated_inner_loop": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 4,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "bad_initial_guess": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 4,
+          "singular_operating_point": 0,
+          "abstain": 0
+        },
+        "singular_operating_point": {
+          "none": 0,
+          "c1_kink": 0,
+          "negative_gds": 0,
+          "truncated_inner_loop": 0,
+          "bad_initial_guess": 0,
+          "singular_operating_point": 4,
+          "abstain": 0
+        }
+      }
+    }
+  },
+  "per_case": [
+    {
+      "case": "none_0",
+      "truth": "none",
+      "rule": "none",
+      "rule_with_abstain": "abstain",
+      "llm:gemini-3.5-flash-lite": "none"
+    },
+    {
+      "case": "none_1",
+      "truth": "none",
+      "rule": "none",
+      "rule_with_abstain": "abstain",
+      "llm:gemini-3.5-flash-lite": "none"
+    },
+    {
+      "case": "none_2",
+      "truth": "none",
+      "rule": "none",
+      "rule_with_abstain": "abstain",
+      "llm:gemini-3.5-flash-lite": "none"
+    },
+    {
+      "case": "none_3",
+      "truth": "none",
+      "rule": "none",
+      "rule_with_abstain": "abstain",
+      "llm:gemini-3.5-flash-lite": "none"
+    },
+    {
+      "case": "kink_0",
+      "truth": "c1_kink",
+      "rule": "c1_kink",
+      "rule_with_abstain": "c1_kink",
+      "llm:gemini-3.5-flash-lite": "c1_kink"
+    },
+    {
+      "case": "kink_1",
+      "truth": "c1_kink",
+      "rule": "none",
+      "rule_with_abstain": "abstain",
+      "llm:gemini-3.5-flash-lite": "none"
+    },
+    {
+      "case": "kink_2",
+      "truth": "c1_kink",
+      "rule": "none",
+      "rule_with_abstain": "abstain",
+      "llm:gemini-3.5-flash-lite": "none"
+    },
+    {
+      "case": "kink_3",
+      "truth": "c1_kink",
+      "rule": "none",
+      "rule_with_abstain": "abstain",
+      "llm:gemini-3.5-flash-lite": "none"
+    },
+    {
+      "case": "neggds_0",
+      "truth": "negative_gds",
+      "rule": "negative_gds",
+      "rule_with_abstain": "negative_gds",
+      "llm:gemini-3.5-flash-lite": "negative_gds"
+    },
+    {
+      "case": "neggds_1",
+      "truth": "negative_gds",
+      "rule": "negative_gds",
+      "rule_with_abstain": "negative_gds",
+      "llm:gemini-3.5-flash-lite": "negative_gds"
+    },
+    {
+      "case": "neggds_2",
+      "truth": "negative_gds",
+      "rule": "negative_gds",
+      "rule_with_abstain": "negative_gds",
+      "llm:gemini-3.5-flash-lite": "negative_gds"
+    },
+    {
+      "case": "neggds_3",
+      "truth": "negative_gds",
+      "rule": "negative_gds",
+      "rule_with_abstain": "negative_gds",
+      "llm:gemini-3.5-flash-lite": "negative_gds"
+    },
+    {
+      "case": "trunc_0",
+      "truth": "truncated_inner_loop",
+      "rule": "truncated_inner_loop",
+      "rule_with_abstain": "truncated_inner_loop",
+      "llm:gemini-3.5-flash-lite": "truncated_inner_loop"
+    },
+    {
+      "case": "trunc_1",
+      "truth": "truncated_inner_loop",
+      "rule": "truncated_inner_loop",
+      "rule_with_abstain": "truncated_inner_loop",
+      "llm:gemini-3.5-flash-lite": "truncated_inner_loop"
+    },
+    {
+      "case": "trunc_2",
+      "truth": "truncated_inner_loop",
+      "rule": "truncated_inner_loop",
+      "rule_with_abstain": "truncated_inner_loop",
+      "llm:gemini-3.5-flash-lite": "truncated_inner_loop"
+    },
+    {
+      "case": "trunc_3",
+      "truth": "truncated_inner_loop",
+      "rule": "truncated_inner_loop",
+      "rule_with_abstain": "truncated_inner_loop",
+      "llm:gemini-3.5-flash-lite": "truncated_inner_loop"
+    },
+    {
+      "case": "badstart_0",
+      "truth": "bad_initial_guess",
+      "rule": "bad_initial_guess",
+      "rule_with_abstain": "bad_initial_guess",
+      "llm:gemini-3.5-flash-lite": "bad_initial_guess"
+    },
+    {
+      "case": "badstart_1",
+      "truth": "bad_initial_guess",
+      "rule": "bad_initial_guess",
+      "rule_with_abstain": "bad_initial_guess",
+      "llm:gemini-3.5-flash-lite": "bad_initial_guess"
+    },
+    {
+      "case": "badstart_2",
+      "truth": "bad_initial_guess",
+      "rule": "bad_initial_guess",
+      "rule_with_abstain": "bad_initial_guess",
+      "llm:gemini-3.5-flash-lite": "bad_initial_guess"
+    },
+    {
+      "case": "badstart_3",
+      "truth": "bad_initial_guess",
+      "rule": "bad_initial_guess",
+      "rule_with_abstain": "bad_initial_guess",
+      "llm:gemini-3.5-flash-lite": "bad_initial_guess"
+    },
+    {
+      "case": "singular_0",
+      "truth": "singular_operating_point",
+      "rule": "singular_operating_point",
+      "rule_with_abstain": "singular_operating_point",
+      "llm:gemini-3.5-flash-lite": "singular_operating_point"
+    },
+    {
+      "case": "singular_1",
+      "truth": "singular_operating_point",
+      "rule": "singular_operating_point",
+      "rule_with_abstain": "singular_operating_point",
+      "llm:gemini-3.5-flash-lite": "singular_operating_point"
+    },
+    {
+      "case": "singular_2",
+      "truth": "singular_operating_point",
+      "rule": "singular_operating_point",
+      "rule_with_abstain": "singular_operating_point",
+      "llm:gemini-3.5-flash-lite": "singular_operating_point"
+    },
+    {
+      "case": "singular_3",
+      "truth": "singular_operating_point",
+      "rule": "singular_operating_point",
+      "rule_with_abstain": "singular_operating_point",
+      "llm:gemini-3.5-flash-lite": "singular_operating_point"
+    }
+  ]
+}

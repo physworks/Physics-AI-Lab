@@ -1,113 +1,105 @@
-# Stage 2 — corner and statistical models
+# Stage 2 — 코너·통계 모델
 
-How does device-to-device spread become a corner model, and do those corners
-actually bound circuit behaviour?
+**소자 간 산포가 어떻게 코너 모델이 되고, 그 코너가 실제로 회로 동작을 bound
+하는가.**
 
 ```bash
 pip install -r requirements.txt
-python run_corners.py             # writes outputs/
-python -m pytest tests/ -q        # 23 tests
+python run_corners.py             # outputs/ 생성
+python -m pytest tests/ -q        # 테스트 23개
 ```
 
-Needs `12_compact-model-extraction` two levels up (or `CMEXT_PATH`), and
-`stage1_design` beside this directory — stage 2 reuses stage 1's measurement
-design and its Fisher analysis rather than reimplementing either.
+`12_compact-model-extraction`이 두 단계 위에(없으면 `CMEXT_PATH`), `stage1_design`
+이 옆에 있어야 합니다. Stage 2는 Stage 1의 측정 설계와 Fisher 해석을 **다시
+구현하지 않고 그대로 가져다 씁니다.**
 
-## What was measured
+## 측정한 것
 
-**1 · Process correlation is not estimation correlation.** Both are
-correlation matrices over the same seven parameters, and for `vth0`/`mu0` they
-have **opposite signs**: process **−0.33**, estimation **+0.90**. Twelve of the
-twenty-one pairs disagree in sign.
+**1 · 공정 상관은 추정 상관이 아닙니다.** 둘 다 같은 7개 파라미터에 대한 상관
+행렬이지만, `vth0`/`mu0`에서 **부호가 반대**입니다 — 공정 **−0.33**, 추정
+**+0.90**. 21쌍 중 12쌍이 부호가 다릅니다.
 
-Stage 1 measured the estimation value — how the extraction trades two
-parameters off against one noise realisation of one device. A corner model
-needs the other quantity: how devices differ from each other. Reusing stage
-1's number here would tilt every corner the wrong way, and it is an easy
-mistake to make because the two objects look identical.
+Stage 1이 측정한 건 후자입니다 — 한 소자의 한 노이즈 실현에 대해 추출이 두
+파라미터를 **맞바꾸는** 정도. 코너 모델에 필요한 건 전자입니다 — 소자들이 서로
+**어떻게 다른지**. Stage 1의 숫자를 여기 가져다 쓰면 모든 코너가 반대로
+기울어지고, 두 객체가 똑같이 생겼기 때문에 저지르기 쉬운 실수입니다.
 
-The process matrix is derived, not asserted. Six physical causes are sampled
-(oxide thickness, channel length and width, interface traps, contact
-resistance, work function) and the parameter correlations follow from what
-each cause does to the device. The strongest coupling comes from the model
-holding `COX` and `W/L` fixed: a thinner oxide raises the real `Cox`, and
-since drain current goes as `mu·Cox`, the *fitted* `mu0` rises to absorb it
-while `vth0` falls. Opposite directions, one cause.
+공정 행렬은 손으로 적은 게 아니라 **유도한 것**입니다. 물리적 원인 6개를
+샘플링하고(산화막 두께, 채널 길이·폭, 계면 트랩, 접촉 저항, 일함수) 파라미터
+상관이 거기서 따라 나오게 했습니다. 가장 강한 결합은 모델이 `COX`와 `W/L`을
+상수로 잡고 있다는 데서 옵니다 — 산화막이 얇아지면 실제 `Cox`가 커지고
+`Id ∝ μ·Cox`이므로 **피팅된 `mu0`가 그걸 흡수해 올라가는 반면 `vth0`는
+내려갑니다.** 원인 하나, 반대 방향.
 
-**2 · The observed spread is not the process spread**, and the correction
-works only where stage 1 said it would.
+**2 · 관측된 산포는 공정 산포가 아니고**, 보정은 Stage 1이 가능하다고 한 곳에서만
+먹힙니다.
 
-| | observed / true | after deconvolution |
+| | 관측 / 참값 | 보정 후 |
 |---|---|---|
-| `vth0`, `ss`, `mu0`, `rs`, `eta` | 1.01 – 1.32× | **0.92 – 1.07×** |
-| `theta` | 9.3× | 2.5× |
-| `vsat` | 10.2× | 2.8× |
+| `vth0`, `ss`, `mu0`, `rs`, `eta` | 1.01 – 1.32배 | **0.92 – 1.07배** |
+| `theta` | 9.3배 | 2.5배 |
+| `vsat` | 10.2배 | 2.8배 |
 
-Subtracting the extraction covariance that stage 1 predicts recovers the true
-spread within about 10% for the five parameters that are identifiable. It does
-not rescue `theta` and `vsat` — the two stage 1 found to be weakly
-identifiable or not identifiable at all. Almost none of their observed spread
-is process variation; it is measurement noise, and a *linear* estimate of that
-noise is no longer accurate when the noise is that large.
+Stage 1이 예측하는 추출 공분산을 빼면 **식별 가능한 5개 파라미터**는 참 산포를
+약 10% 이내로 복원합니다. `theta`와 `vsat`는 못 구합니다 — Stage 1이 약하게
+식별되거나 아예 식별 불가능하다고 한 바로 그 둘입니다. 이들의 관측 산포는 거의
+전부 공정 변동이 아니라 측정 노이즈이고, 노이즈가 그만큼 크면 **선형 추정으로는
+더 이상 정확하지 않습니다.**
 
-So a parameter's observed spread can be deconvolved only if the parameter was
-measurable to begin with. For one that is not, the observed spread carries no
-information about the process and no correction puts it back. Such a parameter
-belongs fixed at nominal rather than given a range — the same decision stage 1
-was measuring, reached from the other direction.
+그러니 파라미터의 관측 산포는 **애초에 측정 가능했던 경우에만** 디컨볼루션할 수
+있습니다. 그렇지 않은 파라미터의 관측 산포에는 공정에 대한 정보가 없고 어떤
+보정으로도 되돌릴 수 없습니다. 그런 파라미터는 범위를 주지 말고 공칭값에
+고정해야 합니다 — **Stage 1이 측정하던 바로 그 결정이 반대쪽에서 다시 나온
+것입니다.**
 
-**3 · Coverage against waste.** A corner set that covers everything at twice
-the necessary width is not a good corner set, and quoting only its coverage is
-how over-wide corners survive review.
+**3 · 커버리지 대 낭비.** 필요한 폭의 두 배로 전부를 감싸는 코너 세트는 좋은 코너
+세트가 아니고, 커버리지만 인용하는 것이 과도하게 넓은 코너가 리뷰를 통과하는
+방식입니다.
 
-| method | corners | coverage | waste |
+| 방법 | 코너 수 | 커버리지 | 낭비 |
 |---|---|---|---|
-| `independent_box` | 128 | 100% | **+50 to +81%** |
-| `one_at_a_time` | 14 | 95–98% — **fails** | −23 to −32% |
-| `pca_corners` | 14 | 97–99% — **fails** | −6 to −27% |
-| `statistical_mc` | 2000 | 99.4–99.9% | −4 to +14% |
-| `worst_case_distance` | **2** | 99.7–99.9% | **−1 to 0%** |
+| `independent_box` | 128 | 100% | **+50 ~ +81%** |
+| `one_at_a_time` | 14 | 95–98% — **실패** | −23 ~ −32% |
+| `pca_corners` | 14 | 97–99% — **실패** | −6 ~ −27% |
+| `statistical_mc` | 2000 | 99.4–99.9% | −4 ~ +14% |
+| `worst_case_distance` | **2** | 99.7–99.9% | **−1 ~ 0%** |
 
-The box covers everything because it reaches far outside the ellipsoid the
-process actually occupies: a "3σ" box corner over seven parameters sits nearer
-8σ in Mahalanobis distance. Targeting the ellipsoid instead bounds the same
-population within about 0% waste using **2 simulations instead of 128**.
+박스가 전부를 감싸는 이유는 공정이 실제로 차지하는 타원체 **바깥까지 멀리 뻗기**
+때문입니다 — 7개 파라미터에 대한 "3σ" 박스 코너는 Mahalanobis 거리로 8σ에
+가깝습니다. 대신 타원체를 겨냥하면 같은 집단을 **시뮬레이션 128번 대신 2번**으로,
+낭비 약 0%에 감쌉니다.
 
-`one_at_a_time` and `pca_corners` both under-cover, for different reasons — a
-sensitivity sweep is not a bound, and the metric's worst direction is not a
-principal axis of the covariance.
+`one_at_a_time`과 `pca_corners`는 둘 다 under-cover 하는데 이유가 다릅니다 —
+민감도 sweep은 bound가 아니고, 지표의 최악 방향은 공분산의 주축이 아닙니다.
 
-## What this stage does not show
+## 보여주지 않는 것
 
-- The metrics are **proxies** computed from the compact model, not a circuit
-  solve. `delay` ignores input slope, bias-dependent load, and every
-  parasitic. Stage 3 replaces them and re-checks whether these corners still
-  bound the real thing; if they stop bounding it, that is stage 3's finding.
-- `worst_case_distance` needs the metric in advance, so it answers a narrower
-  question than the others. It is not a general corner set, and it is scored
-  only against the metric it was built for — scoring it across metrics it was
-  not built for was an early mistake here and inverted the ranking.
-- `statistical_mc` is excluded from the "narrowest safe" ranking. It is drawn
-  from the same distribution the reference range comes from, so it reproduces
-  that range by construction and would always appear to win, at the cost of
-  hundreds of simulations.
-- The sensitivity coefficients are first-order textbook relations, not values
-  fitted to silicon. Everything is synthetic, with known ground truth.
-- An earlier version omitted local per-parameter variation, which made two
-  parameters sharing one cause come out at exactly −1.000 correlation. Real
-  populations do not do that; local effects were added and the artefact is
-  gone. The covariance is now full rank but strongly anisotropic — **3 axes
-  carry 90% of the variance**, condition number 146 — which is the honest form
-  of "the parameters are not seven independent dimensions".
+- 지표는 Compact Model만으로 계산한 **프록시**이지 회로 해석이 아닙니다. `delay`는
+  입력 기울기, Bias 의존 부하, 모든 기생 성분을 무시합니다. Stage 3가 이걸
+  대체하고 이 코너들이 여전히 실제를 bound 하는지 다시 확인합니다.
+- `worst_case_distance`는 지표를 미리 알아야 하므로 다른 방법들보다 **좁은 질문에
+  답합니다.** 범용 코너 세트가 아니며, 자신이 만들어진 그 지표에 대해서만
+  채점했습니다 — 만들어지지 않은 지표로 채점한 것이 여기서의 초기 실수였고 순위를
+  뒤집어 놓았습니다.
+- `statistical_mc`는 "가장 좁은 안전한 코너" 순위에서 **제외**했습니다. 기준
+  범위가 나온 바로 그 분포에서 뽑혔으므로 그 범위를 구조적으로 재현하고, 따라서
+  항상 이긴 것처럼 보입니다 — 수백 번의 시뮬레이션을 대가로.
+- 민감도 계수는 실리콘에 피팅한 값이 아니라 **1차 교과서 관계식**입니다. 전부
+  합성이고 정답을 알고 있습니다.
+- 초기 버전은 파라미터별 국소 변동을 빠뜨려서, 한 원인을 공유하는 두 파라미터가
+  **정확히 −1.000** 상관으로 나왔습니다. 실제 집단은 그러지 않습니다. 국소 효과를
+  추가해 해소했고, 공분산은 이제 full rank이지만 강하게 비등방입니다 — **3개 축이
+  분산의 90%**를 담고 조건수는 146 — 이것이 "파라미터가 7개의 독립 차원을 채우지
+  않는다"의 정직한 형태입니다.
 
-## Layout
+## 구조
 
 ```
 corners/
-  device.py       resolves project 12's model and stage 1's analysis
-  physical.py     physical causes -> parameter covariance; the sensitivity table
-  deconvolve.py   observed spread minus the extraction covariance
-  generate.py     the four corner methods
-  metrics.py      proxy circuit metrics, batched
-  evaluate.py     coverage against waste
+  device.py       프로젝트 12의 모델과 Stage 1의 해석을 찾아 연결
+  physical.py     물리적 원인 → 파라미터 공분산; 민감도 표
+  deconvolve.py   관측 산포에서 추출 공분산을 빼기
+  generate.py     네 가지 코너 생성 방법
+  metrics.py      프록시 회로 지표, 일괄 평가
+  evaluate.py     커버리지 대 낭비
 ```
