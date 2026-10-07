@@ -1,89 +1,182 @@
-# 13 — From measurement to circuit
+# 13 — 측정에서 회로까지
 
-Three stages of one question: **what has to be true for a compact model to be
-worth using?**
+**Compact Model이 쓸 만하려면 무엇이 참이어야 하는가**를 세 단계로 나눠 묻는
+프로젝트입니다.
 
-Project 12 built a compact model and showed that fitting a curve well and
-determining the parameters are different things. This project takes the next
-three steps of the same loop.
+프로젝트 12는 Compact Model을 만들고, **곡선을 잘 맞추는 것과 파라미터를
+결정하는 것은 다른 일**이라는 걸 보였습니다. 이 프로젝트는 같은 루프의 다음 세
+걸음입니다.
 
-| stage | question | state |
+| 단계 | 질문 | 상태 |
 |---|---|---|
-| **1 · design** | Which bias points should be measured so the extracted parameters are worth trusting? | **released** (`stage1_design/`) |
-| **2 · corners** | How does device-to-device spread become a corner and statistical model, and do those corners actually bound circuit behaviour? | **released** (`stage2_corners/`) |
-| **3 · circuit** | Does the model survive a circuit simulator — convergence, continuity, no negative conductance? | planned |
+| **1 · 설계** | 추출한 파라미터를 믿을 수 있으려면 어느 Bias를 측정해야 하는가 | **릴리즈** (`stage1_design/`) |
+| **2 · 코너** | 소자 간 산포가 어떻게 코너·통계 모델이 되고, 그 코너가 실제로 회로 동작을 bound 하는가 | **릴리즈** (`stage2_corners/`) |
+| **3 · 회로** | 모델이 회로 시뮬레이터에서 살아남는가 — 수렴성, 연속성, 음수 컨덕턴스 | **릴리즈** (`stage3_circuit/`) |
 
-Each stage ships on its own and is tagged. The stages share a device model, so
-a later stage consumes the earlier one's output rather than restating it.
+각 단계는 독립적으로 릴리즈되고 태그가 붙습니다. 뒤 단계는 앞 단계의 결과를
+**다시 만들지 않고 그대로 가져다 씁니다.**
 
-## Why these three
+## 왜 이 세 가지인가
 
-A compact model is handed between people. Someone measures, someone extracts,
-someone builds corners, and someone runs it in a circuit. Each handover is a
-place the model can be quietly wrong while every individual step looks fine:
-a parameter that fit well but was never determined, a corner that bounds the
-parameters but not the circuit, a model that is accurate and will not converge.
+Compact Model은 사람 손을 여러 번 건너갑니다. 누군가 측정하고, 누군가 추출하고,
+누군가 코너를 만들고, 누군가 회로에서 돌립니다. **그 인계 지점마다 모델이 조용히
+틀릴 수 있습니다** — 잘 맞았지만 결정된 적 없는 파라미터, 파라미터는 감싸지만
+회로는 못 감싸는 코너, 정확한데 수렴하지 않는 모델.
 
-## Stage 1 — results
+## Stage 1 — 결과
 
-Full report: [`stage1_design/outputs/report.md`](stage1_design/outputs/report.md).
+전체 리포트: [`stage1_design/outputs/report.md`](stage1_design/outputs/report.md)
 
-- Choosing bias points by information rather than evenly **cut held-out
-  prediction error by about 2.9×** at the same number of measurements.
-- The textbook D-optimal design, which assumes uniform measurement noise, is
-  **worse than the floor-aware one**: it concentrates points in deep
-  subthreshold, where sensitivity is highest and precision is lowest.
-- The decision that mattered most was not which criterion to optimise. It was
-  whether to estimate an undeterminable parameter or fix it at its nominal —
-  worth a 32% improvement or a 2× degradation depending on how well that
-  nominal is known. The break-even falls **between 20% and 30% nominal
-  error**, and both hand-written rules put their threshold elsewhere — each
-  is wrong on 3 of the 8 cases, in opposite directions.
-- **The LLM arm did not beat either rule.** Across three prompt and payload
-  conditions and six sweeps it tied the stronger rule at 3 of 8 and never
-  won. Every condition failed identically — fixing the parameter where it
-  should have estimated it, at 30% nominal error and above. Neither rewriting
-  the prompt nor supplying the decisive evidence in structured form moved
-  that boundary, and the three conditions are statistically
-  indistinguishable at the repeat count used.
+- 측정점을 균등하게가 아니라 **정보량 기준으로 고르니 held-out 예측 오차가 약
+  2.9배** 줄었습니다. 측정 횟수는 동일합니다.
+- **교과서 D-optimal 설계가 더 나쁩니다.** 측정 노이즈가 균일하다고 가정하기
+  때문에 민감도가 가장 큰 깊은 Subthreshold에 점을 몰아넣는데, 거기가 바로
+  정밀도가 가장 낮은 곳입니다.
+- 가장 중요했던 결정은 criterion 선택이 아니었습니다. **결정 불가능한 파라미터를
+  추정할 것인가 공칭값에 고정할 것인가**였고, 그 공칭값을 얼마나 믿을 수 있느냐에
+  따라 32% 이득과 2배 손해 사이를 오갑니다. 손익분기는 **공칭값 오차 20~30%
+  사이**이고, 손으로 쓴 두 규칙 모두 임계값을 다른 곳에 두어 8건 중 3건씩, 서로
+  반대 방향으로 틀렸습니다.
+- **LLM은 두 규칙 중 어느 것도 이기지 못했습니다.** 프롬프트·payload 3개 조건,
+  6회 sweep 동안 강한 규칙과 3/8 동점이었고 한 번도 앞서지 못했습니다. 모든
+  조건이 **같은 자리에서 같은 방향으로** 실패했습니다 — 공칭값 오차 30% 이상에서
+  추정해야 할 것을 고정. 프롬프트를 다시 써도, 결정적 증거를 구조화해서 넣어도 그
+  경계는 움직이지 않았습니다.
 
-## Stage 2 — results
+## Stage 2 — 결과
 
-Full report: [`stage2_corners/outputs/report.md`](stage2_corners/outputs/report.md).
+전체 리포트: [`stage2_corners/outputs/report.md`](stage2_corners/outputs/report.md)
 
-- **Process correlation and estimation correlation have opposite signs** for
-  `vth0`/`mu0` (−0.33 against +0.90), and 12 of 21 pairs disagree. Stage 1
-  measured the second; a corner model needs the first. The process matrix here
-  is derived from physical causes rather than written down.
-- **Subtracting the extraction noise works only for parameters that were
-  identifiable.** It recovers the true spread within ~10% for five of seven;
-  `theta` and `vsat` — the two stage 1 flagged — come in 9–10× inflated and no
-  linear correction rescues them. An unidentifiable parameter's observed
-  spread is measurement noise, and belongs fixed at nominal rather than given
-  a corner.
-- **2 corners beat 128.** Classic independent box corners cover the population
-  at +50 to +81% wasted margin; targeting the k-sigma ellipsoid for a named
-  metric covers it at about 0% using two simulations.
+- **공정 상관과 추정 상관은 부호가 반대입니다.** `vth0`/`mu0`에서 −0.33 대
+  +0.90이고, 21쌍 중 12쌍이 부호가 다릅니다. Stage 1이 측정한 건 후자인데 코너
+  모델에 필요한 건 전자입니다. 여기서 공정 상관 행렬은 **물리적 원인에서
+  유도**했지 손으로 적지 않았습니다.
+- **추출 노이즈를 빼는 보정은 애초에 식별 가능했던 파라미터에만 먹힙니다.**
+  7개 중 5개는 참값의 약 10% 이내로 복원되지만, Stage 1이 지목했던 `theta`와
+  `vsat`는 **9~10배 부풀려져** 있고 어떤 선형 보정으로도 안 돌아옵니다. 식별
+  불가능한 파라미터의 관측 산포는 공정 변동이 아니라 측정 노이즈이고, 코너를 줄
+  게 아니라 공칭값에 고정해야 합니다.
+- **코너 2개가 128개를 이깁니다.** 고전적인 독립 박스 코너는 마진을 +50~81%
+  낭비하면서 집단을 감쌉니다. kσ 타원면을 겨냥하면 시뮬레이션 **2번**으로 거의
+  0% 낭비로 같은 집단을 감쌉니다.
 
-## Honest limitations
+## Stage 3 — 결과
 
-- Synthetic devices with known ground truth throughout. No measured silicon.
-- The model is the EKV-form implementation from project 12. It is **not**
-  BSIM, BSIM-CMG, or any industry-standard compact model.
-- Designs are built at believed parameter values, not true ones. Sequential
-  re-design would close that gap and is not implemented.
-- The committed stage-1 results have a **rule fallback** in the agent row: the
-  development sandbox could not reach an LLM API. `scripts/run_llm_arm.py`
-  fills that row in, and the report says so until it does.
+전체 리포트: [`stage3_circuit/outputs/report.md`](stage3_circuit/outputs/report.md)
 
-## Layout
+- **모델이 자기 파라미터 경계 안에서 미수렴 전류를 반환합니다.** 직렬 저항을 40회
+  상한의 고정점 반복으로 풀고 있었는데, nominal에서 39회가 필요하고 `rs = 2000`
+  에서는 500회가 넘게 필요해 **72% 틀린 값**을 돌려줍니다. Newton 해법(4회)과
+  해석적 도함수로 교체했습니다. Stage 2는 다시 확인했고 영향 없었습니다.
+- **모델에 음수 출력 컨덕턴스가 있습니다** — 동작 영역의 12%에서 Drain 전류가
+  꺾여 내려갑니다. 프로젝트 12·13의 어떤 단계도 이걸 잡을 수 없었습니다. 꺾이는
+  곡선도 자기 자신에는 잘 맞고, Stage 2는 그 영역 안의 점 하나에서만 전류를
+  읽었습니다. 그런데 **수렴 실패를 한 건도 일으키지 않았고**, 설계 문서는 일으킬
+  거라고 예측했습니다. `gds`가 지배하려면 필요한 부하가 소자를 음수 영역 **밖으로**
+  끌어내기 때문입니다.
+- **Stage 2의 결론이 실제 회로에서도 유지됩니다.** kσ 타원면을 겨냥한 코너 2개가
+  실측한 400개 소자를 박스 코너 128개만큼 감싸고, 낭비는 +54% 대 **+2%**입니다.
+- **미리 등록해둔 예측이 빗나갔습니다.** Stage 2의 지연 프록시로 만든 코너가 실제
+  지연을 under-cover 할 거라고 적어뒀는데 **같은 코너**였습니다. 프록시가 깨지는
+  건 문턱전압 산포가 18%쯤 됐을 때이고, 이 공정 실제 값의 10배입니다.
+- **보이지 않는 결함이 있습니다.** 결함을 주입한 24건 중 규칙은 판별 가능한
+  케이스를 전부 맞히지만, **3건은 trace로 판별이 불가능합니다.** 솔브가 지나가지
+  않은 불연속은 건강한 회로와 완전히 같은 trace를 남깁니다. 그 3건에 기권하면서
+  건강한 케이스에는 기권하지 않는 진단자는 **존재할 수 없습니다.**
+- **LLM은 규칙과 동점이고 기권을 한 번도 쓰지 않았습니다**(9회 반복 다수결,
+  87.5% / 판별 가능 100%). 판별 불가 3건이 있고 프롬프트에 기권 시점을 설명해뒀는
+  데도요. 그 3건에서는 **9회 전부 만장일치로** 같은 오답을 냈습니다.
+- **분기가 어디 떨어지는지가 결과였고, 재현됐습니다.** 9회 반복 실행 두 번에서
+  반복 간 답이 갈린 케이스는 5건과 6건인데, **전부 6개 클래스 중
+  2개**(`singular_operating_point`, `truncated_inner_loop`)에 있습니다. 무작위라면
+  사후 선택 보정 후 각각 **0.020**과 **0.0031**. 3회 실행까지 더하면 분기 관측
+  14건이 전부 그 8개 케이스 안입니다. "모델이 길고 지저분한 증거에서 흔들린다"는
+  싼 설명은 **배제했습니다** — 분기율과 증거 길이의 순위상관이 **+0.09**이고, 한
+  번도 안 갈린 두 클래스가 갈린 쪽보다 긴 history를 갖습니다. 따라가는 건
+  **+0.66**으로 **규칙의 답을 뒤집는 필드 수**, 즉 그 판정이 몇 개의 조건에 얽혀
+  있느냐입니다. 예외가 하나 있어서 **메커니즘이 아니라 검증할 방향**으로
+  적어뒀습니다.
+- **다만 클래스 안에서 어느 케이스가 갈리는지는 재현되지 않습니다.** 불안정한 건
+  특정 케이스가 아니라 **증거의 모양**입니다 — 클래스 수준 성질이고 사례 수준이
+  아닙니다.
+- **같은 결론에 세 번 도달했고 처음 두 번은 근거가 없었습니다.** 3회 반복으로 두
+  번 돌렸을 때 87.5%와 83.3%가 나왔습니다 — 같은 프로토콜에 4.2포인트. 3회
+  다수결은 arm의 점수 자체를 확률변수로 만듭니다. 9회로 재서 87.5%로 수렴한
+  뒤에야 "규칙과 동점"이 쓸 수 있는 문장이 되었고, 그 전까지는 한 번은 운으로
+  맞고 한 번은 노이즈로 틀린 것이었습니다. **Stage 1의 교훈이 이번엔 결과 보고
+  쪽에서 재발했습니다.**
+
+## 세 단계가 AI에 대해 말하는 것
+
+같은 질문을 **두 번, 다른 모양으로** 던졌습니다. 두 번 다 규칙 기준선을 먼저
+의심하고, 결함이 발견되면 고친 뒤에 다시 쟀습니다.
+
+| | 판단의 모양 | 결과 |
+|---|---|---|
+| Stage 1 | 정량적 임계값 (3조건 × 15회 반복) | 규칙을 한 번도 못 이김, 매번 같은 방향으로 실패 |
+| Stage 3 | 이산 분류 + 기권 허용 (6클래스 × 4건, 9회 반복) | 규칙과 동점, 더해진 것 없음, 기권 0회, 재현성 손해 — 그리고 손해가 **어디서** 나는지 측정 |
+
+둘 다 **"LLM이 엔지니어링에 쓸모없다"는 증거가 아닙니다.** 둘 다 *이 특정 용도*
+— 규칙이 이미 담아낼 수 있는 수치 판단을 LLM으로 대체하는 것 — 에 대한
+증거입니다. 이 프로젝트들에서 에이전트가 실제로 도움이 된 지점은 판단 그 자체가
+아니었습니다.
+
+## 설계 문서에 적어둔 예측 중 빗나간 것
+
+측정 전에 적어두었기 때문에 빗나간 것이 기록으로 남았습니다.
+
+| 예측 | 실제 |
+|---|---|
+| AI가 식별 불가 파라미터를 목적함수에서 빼서 이긴다 | 빼는 쪽이 오히려 나빴음 — 틀린 공칭값이 편향을 주입 |
+| 증거를 설명 없이 주면 성능이 나빠진다 (5/8) | 재현 안 됨. 3회 반복으로는 3/8과 5/8이 같은 확률 |
+| 음수 `gds`가 Newton을 깨뜨린다 | 안 깨짐 — 두 조건이 레일 안에서 서로를 배제 |
+| 프록시로 만든 코너가 실제 지연을 under-cover 한다 | 같은 코너였음. 집단이 형상이 아니라 스케일로만 다름 |
+| 전류 상한(ceiling)이 수렴을 깨뜨린다 | 안 깨짐 — 상한에 걸린 소자는 정전류원이라 해가 유일 |
+| LLM의 불안정성이 판별 불가 케이스에 몰려 있다 (= 기권의 대역) | 0/3, 전혀 안 겹침. 판별 불가에선 9회 만장일치로 틀림 |
+| 그럼 불리언 하나에 매달린 클래스가 불안정할 것이다 | 반대였음. 필드 1개로 결정되는 클래스가 가장 안정, 5개 얽힌 클래스가 가장 불안정 |
+
+## 테스트
+
+| 단계 | 테스트 | 비용 |
+|---|---|---|
+| Stage 1 | 41 | 즉시 |
+| Stage 2 | 23 | 즉시 |
+| Stage 3 | **171** | 약 2분 (`-m "not slow"`로 과도 해석 제외) |
+
+Stage 3이 많은 건 여기에 솔버와 소자 평가가 있기 때문입니다 — 이 저장소에서 실제로
+깨졌던 코드가 전부 여기 있고, 부호 하나가 틀려도 예외는 나지 않고 그냥 답이
+틀립니다. 그래서 Jacobian은 자기가 미분이라고 주장하는 잔차의 유한차분과
+대조하고, 소자 도함수는 실제로 반환된 전류의 유한차분과 대조하고, 집단 측정에 쓰는
+구적분 지연은 그걸 대신하는 Newton 과도 해석과 대조합니다.
+
+테스트를 쓰는 과정에서 **틀린 주장 둘과 새 결과 하나**가 나왔습니다. 고정점 반복이
+38회(여유 2)인데 README에 39회(여유 1)로 적혀 있었고 리포트 생성기는 "by one"을
+하드코딩하고 있었습니다. trace에 결함 클래스 이름을 그대로 쓴 키가 하나 있어서
+"어떤 필드도 결함 이름을 담지 않는다"가 거짓이었습니다(아무도 읽지 않았고 arm의
+증거에도 없어서 측정 결과는 무사). 그리고 직렬 저항이 음수 `gds` 영역을
+14.5% → 12.0% → 7.5%로 축소한다는 것 — 교과서 방향으로 쓴 테스트가 실패해서
+나왔습니다.
+
+## 솔직한 한계
+
+- 전부 합성 소자이고 정답을 알고 있습니다. **실측 실리콘은 없습니다.**
+- 모델은 프로젝트 12의 EKV 형태 자체 구현입니다. **BSIM도, BSIM-CMG도, 어떤
+  산업 표준 Compact Model도 아닙니다.**
+- 설계는 참값이 아니라 믿고 있는 값에서 만들어집니다. 순차 재설계로 메울 수 있는
+  간극이지만 구현하지 않았습니다.
+- 손으로 쓴 Newton 솔버는 SPICE가 아닙니다. Source stepping, gmin stepping 같은
+  기법이 있었다면 어떤 솔브가 고생하는지가 달라졌을 겁니다.
+- 회로는 전부 NMOS + 부하입니다. 모델이 NMOS 전용이기 때문이고, **음수 컨덕턴스가
+  문제가 됐을 법한 전류미러 부하나 캐스코드는 만들 수 없었습니다.**
+
+## 구조
 
 ```
 13_measurement-to-circuit/
-  stage1_design/        optimal measurement design      (released)
-  stage2_corners/       corner and statistical models   (planned)
-  stage3_circuit/       circuit-level model validation  (planned)
+  stage1_design/      최적 측정 설계
+  stage2_corners/     코너·통계 모델
+  stage3_circuit/     회로 수준 검증
 ```
 
-Requires project `12_compact-model-extraction` alongside it, or `CMEXT_PATH`
-pointing at it.
+`12_compact-model-extraction`이 옆에 있어야 하며, 없으면 `CMEXT_PATH`로 경로를
+지정하면 됩니다.
